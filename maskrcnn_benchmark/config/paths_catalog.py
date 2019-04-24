@@ -5,8 +5,26 @@ import os
 
 
 class DatasetCatalog(object):
-    DATA_DIR = "datasets"
+    # DATA_DIR = "D:\\coco"
+    DATA_DIR = "/philly/gcr/resrchvc/t-chdeng/"
     DATASETS = {
+        "coco_2014_train_zip":{
+            "zip_file": "train2014.zip",
+            "ann_file": "coco/annotations/instances_train2014.json"
+        },
+        "coco_2014_val_zip":{
+            "zip_file": "val2014.zip",
+            "ann_file": "coco/annotations/instances_val2014.json"
+        },
+        "coco_2014_minival_zip": {
+            "zip_file": "val2014.zip",
+            "ann_file": "coco/annotations/instances_minival2014.json"
+        },
+        "coco_2014_valminusminival_zip": {
+            "zip_file": "val2014.zip",
+            "ann_file": "coco/annotations/instances_valminusminival2014.json"
+        },
+
         "coco_2017_train": {
             "img_dir": "coco/train2017",
             "ann_file": "coco/annotations/instances_train2017.json"
@@ -108,7 +126,18 @@ class DatasetCatalog(object):
 
     @staticmethod
     def get(name):
-        if "coco" in name:
+        if "zip" in name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                zipname=os.path.join(data_dir, attrs["zip_file"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="COCOZipDataset",
+                args=args,
+            )
+        elif "coco" in name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
@@ -141,7 +170,6 @@ class ModelCatalog(object):
         "MSRA/R-101": "ImageNetPretrained/MSRA/R-101.pkl",
         "MSRA/R-101-GN": "ImageNetPretrained/47592356/R-101-GN.pkl",
         "FAIR/20171220/X-101-32x8d": "ImageNetPretrained/20171220/X-101-32x8d.pkl",
-        "FAIR/20171220/X-101-64x4d": "ImageNetPretrained/20171220/X-101-64x4d.pkl",
     }
 
     C2_DETECTRON_SUFFIX = "output/train/{}coco_2014_train%3A{}coco_2014_valminusminival/generalized_rcnn/model_final.pkl"

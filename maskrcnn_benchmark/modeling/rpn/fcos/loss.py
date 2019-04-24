@@ -36,6 +36,8 @@ class FCOSLossComputation(object):
 
     def prepare_targets(self, points, targets):
         object_sizes_of_interest = [
+            # TODO(chaorui) 
+            # [-1, 32], [32, 64],
             [-1, 64],
             [64, 128],
             [128, 256],

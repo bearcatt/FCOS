@@ -5,8 +5,11 @@ from torch import nn
 
 from maskrcnn_benchmark.modeling import registry
 from maskrcnn_benchmark.modeling.make_layers import conv_with_kaiming_uniform
+
 from . import fpn as fpn_module
+from . import hrfpn as hrfpn_module
 from . import resnet
+from . import hrnet
 
 
 @registry.BACKBONES.register("R-50-C4")
@@ -65,6 +68,25 @@ def build_resnet_fpn_p3p7_backbone(cfg):
             cfg.MODEL.FPN.USE_GN, cfg.MODEL.FPN.USE_RELU
         ),
         top_blocks=fpn_module.LastLevelP6P7(in_channels_p6p7, out_channels),
+    )
+    model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
+    model.out_channels = out_channels
+    return model
+
+
+@registry.BACKBONES.register("HRNET-W18")
+@registry.BACKBONES.register("HRNET-W32")
+@registry.BACKBONES.register("HRNET-W40")
+def build_hrnet_fpn_backbone(cfg):
+    hrnet_args = dict() # PLACEHOLDER
+    body = hrnet.HighResolutionNet(**hrnet_args)
+    in_channels = list() # PLACEHOLDER
+    out_channels = 256 # PLACEHOLDER
+    hrfpn_args = dict() # PLACEHOLDER
+    fpn = hrfpn_module.HRFPN(
+        in_channels=in_channels, 
+        out_channels=out_channels,
+        **hrfpn_args
     )
     model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
     model.out_channels = out_channels
