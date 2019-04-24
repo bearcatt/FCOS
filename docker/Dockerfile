@@ -50,7 +50,7 @@ RUN git clone https://github.com/cocodataset/cocoapi.git \
 ARG FORCE_CUDA="1"
 ENV FORCE_CUDA=${FORCE_CUDA}
 RUN git clone https://github.com/bearcatt/FCOS.git \
- && cd maskrcnn_benchmark \
+ && cd FCOS \
  && python setup.py build develop
 
 WORKDIR /maskrcnn-benchmark
