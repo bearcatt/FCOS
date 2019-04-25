@@ -53,4 +53,4 @@ RUN git clone https://github.com/bearcatt/FCOS.git \
  && cd FCOS \
  && python setup.py build develop
 
-WORKDIR /maskrcnn-benchmark
+WORKDIR /FCOS

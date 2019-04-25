@@ -34,3 +34,4 @@ dist/
 job.json
 tools/test.py
 tests/test.yaml
+log.txt
