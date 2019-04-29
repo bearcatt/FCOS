@@ -31,7 +31,7 @@ dist/
 /models
 /.vscode
 
-job.json
+job*
 tools/test.py
 tests/test.yaml
 log.txt
