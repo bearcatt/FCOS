@@ -51,9 +51,13 @@ class HRFPN(nn.Module):
         )
 
         if self.share_conv:
-            self.fpn_conv = nn.Conv2d(in_channels=out_channels,
-                                      out_channels=out_channels,
-                                      kernel_size=3, padding=1)
+            self.fpn_conv = nn.Conv2d(
+                in_channels=out_channels,
+                out_channels=out_channels,
+                kernel_size=3, 
+                stride=2,
+                padding=1,
+            )
         else:
             self.fpn_conv = nn.ModuleList()
             for i in range(5):
@@ -61,6 +65,7 @@ class HRFPN(nn.Module):
                     in_channels=out_channels,
                     out_channels=out_channels,
                     kernel_size=3,
+                    stride=2,
                     padding=1
                 ))
         if pooling == 'MAX':
@@ -90,7 +95,6 @@ class HRFPN(nn.Module):
             out = self.reduction_conv(out)
         outs = [out]
         for i in range(1, 5):
-            # TODO(chaorui)
             outs.append(self.pooling(out, kernel_size=2**i, stride=2**i))
         outputs = []
         if self.share_conv:

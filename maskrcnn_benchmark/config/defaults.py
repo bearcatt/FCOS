@@ -278,6 +278,45 @@ _C.MODEL.RESNETS.RES2_OUT_CHANNELS = 256
 _C.MODEL.RESNETS.STEM_OUT_CHANNELS = 64
 
 # ---------------------------------------------------------------------------- #
+# HRNet options
+# ---------------------------------------------------------------------------- #
+_C.MODEL.HRNET = CN()
+_C.MODEL.HRNET.EXTRA = dict(
+    stage1=dict(
+        num_modules=1,
+        num_branches=1,
+        block='BOTTLENECK',
+        num_blocks=(4,),
+        num_channels=(64,),
+        fuse_method='SUM'),
+    stage2=dict(
+        num_modules=1,
+        num_branches=2,
+        block='BASIC',
+        num_blocks=(4, 4),
+        num_channels=(32, 64),
+        fuse_method='SUM'),
+    stage3=dict(
+        num_modules=4,
+        num_branches=3,
+        block='BASIC',
+        num_blocks=(4, 4, 4),
+        num_channels=(32, 64, 128),
+        fuse_method='SUM'),
+    stage4=dict(
+        num_modules=3,
+        num_branches=4,
+        block='BASIC',
+        num_blocks=(4, 4, 4, 4),
+        num_channels=(32, 64, 128, 256),
+        fuse_method='SUM')
+)
+
+_C.MODEL.HRNET.FPN = CN()
+_C.MODEL.HRNET.FPN.IN_CHANNEL = [32, 64, 128, 256],
+_C.MODEL.HRNET.FPN.OUT_CHANNEL = 256
+
+# ---------------------------------------------------------------------------- #
 # FCOS Options
 # ---------------------------------------------------------------------------- #
 _C.MODEL.FCOS = CN()

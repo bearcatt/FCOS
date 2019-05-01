@@ -78,15 +78,11 @@ def build_resnet_fpn_p3p7_backbone(cfg):
 @registry.BACKBONES.register("HRNET-W32")
 @registry.BACKBONES.register("HRNET-W40")
 def build_hrnet_fpn_backbone(cfg):
-    hrnet_args = dict() # PLACEHOLDER
-    body = hrnet.HighResolutionNet(**hrnet_args)
-    in_channels = list() # PLACEHOLDER
-    out_channels = 256 # PLACEHOLDER
-    hrfpn_args = dict() # PLACEHOLDER
+    hrnet_args = cfg.MODEL.HRNET.EXTRA
+    body = hrnet.HighResolutionNet(extra=hrnet_args)
     fpn = hrfpn_module.HRFPN(
-        in_channels=in_channels, 
-        out_channels=out_channels,
-        **hrfpn_args
+        in_channels=cfg.MODEL.HRNET.FPN.IN_CHANNEL, 
+        out_channels=cfg.MODEL.HRNET.FPN.OUT_CHANNEL,
     )
     model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
     model.out_channels = out_channels
