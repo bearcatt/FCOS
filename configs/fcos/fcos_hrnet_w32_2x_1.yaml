@@ -1,16 +1,14 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_0117500.pth"
-  # WEIGHT: ""
+  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_hrnet.pth"
   RPN_ONLY: True
   FCOS_ON: True
   BACKBONE:
     CONV_BODY: "HRNET-W32"
   RETINANET:
     USE_C5: False # FCOS uses P5 instead of C5
-  HRNET:
-    FPN:
-      CONV_STRIDE: 2 # Match the output of HRFPN to FCOS head.
+  FCOS:
+    FPN_STRIDES: [4, 8, 16, 32, 64] # Match the input of FCOS head to HRFPN.
 DATASETS:
   TRAIN: ("coco_2014_train_zip", "coco_2014_valminusminival_zip")
   TEST: ("coco_2014_minival_zip",)
@@ -22,7 +20,7 @@ INPUT:
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
-  BASE_LR: 0.005
+  BASE_LR: 0.0075
   WEIGHT_DECAY: 0.0001
   STEPS: (180000, 240000)
   MAX_ITER: 270000

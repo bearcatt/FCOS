@@ -78,14 +78,44 @@ def build_resnet_fpn_p3p7_backbone(cfg):
 @registry.BACKBONES.register("HRNET-W32")
 @registry.BACKBONES.register("HRNET-W40")
 def build_hrnet_fpn_backbone(cfg):
-    hrnet_args = cfg.MODEL.HRNET.EXTRA
+    hrnet_args = dict(
+        stage1=dict(
+            num_modules=1,
+            num_branches=1,
+            block='BOTTLENECK',
+            num_blocks=(4,),
+            num_channels=(64,),
+            fuse_method='SUM'),
+        stage2=dict(
+            num_modules=1,
+            num_branches=2,
+            block='BASIC',
+            num_blocks=(4, 4),
+            num_channels=(32, 64),
+            fuse_method='SUM'),
+        stage3=dict(
+            num_modules=4,
+            num_branches=3,
+            block='BASIC',
+            num_blocks=(4, 4, 4),
+            num_channels=(32, 64, 128),
+            fuse_method='SUM'),
+        stage4=dict(
+            num_modules=3,
+            num_branches=4,
+            block='BASIC',
+            num_blocks=(4, 4, 4, 4),
+            num_channels=(32, 64, 128, 256),
+            fuse_method='SUM')
+    )
     body = hrnet.HighResolutionNet(extra=hrnet_args)
     fpn = hrfpn_module.HRFPN(
         in_channels=cfg.MODEL.HRNET.FPN.IN_CHANNEL, 
         out_channels=cfg.MODEL.HRNET.FPN.OUT_CHANNEL,
+        conv_stride=cfg.MODEL.HRNET.FPN.CONV_STRIDE,
     )
     model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
-    model.out_channels = out_channels
+    model.out_channels = cfg.MODEL.HRNET.FPN.OUT_CHANNEL
     return model
 
 

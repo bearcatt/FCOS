@@ -18,7 +18,7 @@ from maskrcnn_benchmark.solver import make_optimizer
 from maskrcnn_benchmark.engine.inference import inference
 from maskrcnn_benchmark.engine.trainer import do_train
 from maskrcnn_benchmark.modeling.detector import build_detection_model
-from maskrcnn_benchmark.utils.checkpoint import DetectronCheckpointer
+from maskrcnn_benchmark.utils.checkpoint import DetectronCheckpointer, Checkpointer
 from maskrcnn_benchmark.utils.collect_env import collect_env_info
 from maskrcnn_benchmark.utils.comm import synchronize, get_rank
 from maskrcnn_benchmark.utils.imports import import_file
@@ -26,7 +26,7 @@ from maskrcnn_benchmark.utils.logger import setup_logger
 from maskrcnn_benchmark.utils.miscellaneous import mkdir
 
 
-def train(cfg, local_rank, distributed):
+def train(cfg, local_rank, distributed, from_detectron=True):
     model = build_detection_model(cfg)
     device = torch.device(cfg.MODEL.DEVICE)
     model.to(device)
@@ -47,11 +47,13 @@ def train(cfg, local_rank, distributed):
     output_dir = cfg.OUTPUT_DIR
 
     save_to_disk = get_rank() == 0
-    checkpointer = DetectronCheckpointer(
+    Ckpter = DetectronCheckpointer if from_detectron else Checkpointer
+    checkpointer = Ckpter(
         cfg, model, optimizer, scheduler, output_dir, save_to_disk
     )
     extra_checkpoint_data = checkpointer.load(cfg.MODEL.WEIGHT)
     arguments.update(extra_checkpoint_data)
+    scheduler.milestones = cfg.SOLVER.STEPS
 
     data_loader = make_data_loader(
         cfg,
@@ -130,6 +132,11 @@ def main():
         default=None,
         nargs=argparse.REMAINDER,
     )
+    parser.add_argument(
+        "--from-detectron",
+        help="Whether to obtain the pretrained detectron model",
+        default=True,
+    )
 
     args = parser.parse_args()
 
@@ -164,7 +171,7 @@ def main():
         logger.info(config_str)
     logger.info("Running with config:\n{}".format(cfg))
 
-    model = train(cfg, args.local_rank, args.distributed)
+    model = train(cfg, args.local_rank, args.distributed, args.from_detectron)
 
     if not args.skip_test:
         run_test(cfg, model, args.distributed)

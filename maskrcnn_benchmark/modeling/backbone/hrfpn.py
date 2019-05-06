@@ -36,6 +36,7 @@ class HRFPN(nn.Module):
                  normalize=None,
                  pooling='AVG',
                  share_conv=False,
+                 conv_stride=1,
                  with_checkpoint=False):
         super(HRFPN, self).__init__()
         assert isinstance(in_channels, list)
@@ -55,7 +56,7 @@ class HRFPN(nn.Module):
                 in_channels=out_channels,
                 out_channels=out_channels,
                 kernel_size=3, 
-                stride=2,
+                stride=conv_stride,
                 padding=1,
             )
         else:
@@ -65,7 +66,7 @@ class HRFPN(nn.Module):
                     in_channels=out_channels,
                     out_channels=out_channels,
                     kernel_size=3,
-                    stride=2,
+                    stride=conv_stride,
                     padding=1
                 ))
         if pooling == 'MAX':
