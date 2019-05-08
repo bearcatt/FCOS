@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_0250000.pth"
+  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_hrnet_w32.pth"
   RPN_ONLY: True
   FCOS_ON: True
   BACKBONE:
@@ -9,7 +9,7 @@ MODEL:
     USE_C5: False # FCOS uses P5 instead of C5
   HRNET:
     FPN:
-      TYPE: "HRFPN"
+      TYPE: "HRFPNv2"
       CONV_STRIDE: 2 # Match the output of HRFPN to FCOS head.
 DATASETS:
   TRAIN: ("coco_2014_train_zip", "coco_2014_valminusminival_zip")

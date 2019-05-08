@@ -282,7 +282,7 @@ _C.MODEL.RESNETS.STEM_OUT_CHANNELS = 64
 # ---------------------------------------------------------------------------- #
 _C.MODEL.HRNET = CN()
 _C.MODEL.HRNET.FPN = CN()
-_C.MODEL.HRNET.FPN.IN_CHANNEL = [32, 64, 128, 256]
+_C.MODEL.HRNET.FPN.TYPE = "HRFPN"
 _C.MODEL.HRNET.FPN.OUT_CHANNEL = 256
 _C.MODEL.HRNET.FPN.CONV_STRIDE = 1
 
