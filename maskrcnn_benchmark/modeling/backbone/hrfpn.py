@@ -37,6 +37,7 @@ class HRFPN(nn.Module):
                  pooling='AVG',
                  share_conv=False,
                  conv_stride=1,
+                 num_level=5,
                  with_checkpoint=False):
         super(HRFPN, self).__init__()
         assert isinstance(in_channels, list)
@@ -45,6 +46,7 @@ class HRFPN(nn.Module):
         self.num_ins = len(in_channels)
         self.with_bias = normalize is None
         self.share_conv = share_conv
+        self.num_level = num_level
         self.reduction_conv = nn.Sequential(
             nn.Conv2d(in_channels=sum(in_channels),
                       out_channels=out_channels,
@@ -61,7 +63,7 @@ class HRFPN(nn.Module):
             )
         else:
             self.fpn_conv = nn.ModuleList()
-            for i in range(5):
+            for i in range(self.num_level):
                 self.fpn_conv.append(nn.Conv2d(
                     in_channels=out_channels,
                     out_channels=out_channels,
@@ -95,14 +97,14 @@ class HRFPN(nn.Module):
         else:
             out = self.reduction_conv(out)
         outs = [out]
-        for i in range(1, 5):
+        for i in range(1, self.num_level):
             outs.append(self.pooling(out, kernel_size=2**i, stride=2**i))
         outputs = []
         if self.share_conv:
-            for i in range(5):
+            for i in range(self.num_level):
                 outputs.append(self.fpn_conv(outs[i]))
         else:
-            for i in range(5):
+            for i in range(self.num_level):
                 if outs[i].requires_grad and self.with_checkpoint:
                     tmp_out = checkpoint(self.fpn_conv[i], outs[i])
                 else:

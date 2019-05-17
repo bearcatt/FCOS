@@ -150,6 +150,7 @@ def build_hrnet_fpn_backbone(cfg):
         in_channels=fpn_in_channels, 
         out_channels=cfg.MODEL.HRNET.FPN.OUT_CHANNEL,
         conv_stride=cfg.MODEL.HRNET.FPN.CONV_STRIDE,
+        num_level=len(cfg.MODEL.FCOS.FPN_STRIDES),
     )
     model = nn.Sequential(OrderedDict([("body", body), ("fpn", fpn)]))
     model.out_channels = cfg.MODEL.HRNET.FPN.OUT_CHANNEL

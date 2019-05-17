@@ -33,17 +33,10 @@ class FCOSLossComputation(object):
         # but we found that L1 in log scale can yield a similar performance
         self.box_reg_loss_func = IOULoss()
         self.centerness_loss_func = nn.BCEWithLogitsLoss()
+        self.object_sizes_of_interest = cfg.MODEL.FCOS.TARGET_ASSIGN
 
     def prepare_targets(self, points, targets):
-        object_sizes_of_interest = [
-            # TODO(chaorui) 
-            # [-1, 32], [32, 64],
-            [-1, 64],
-            [64, 128],
-            [128, 256],
-            [256, 512],
-            [512, INF],
-        ]
+        object_sizes_of_interest = self.object_sizes_of_interest
         expanded_object_sizes_of_interest = []
         for l, points_per_level in enumerate(points):
             object_sizes_of_interest_per_level = \
@@ -107,11 +100,11 @@ class FCOSLossComputation(object):
 
             # if there are still more than one objects for a location,
             # we choose the one with minimal area
-            locations_to_min_aera, locations_to_gt_inds = locations_to_gt_area.min(dim=1)
+            locations_to_min_area, locations_to_gt_inds = locations_to_gt_area.min(dim=1)
 
             reg_targets_per_im = reg_targets_per_im[range(len(locations)), locations_to_gt_inds]
             labels_per_im = labels_per_im[locations_to_gt_inds]
-            labels_per_im[locations_to_min_aera == INF] = 0
+            labels_per_im[locations_to_min_area == INF] = 0
 
             labels.append(labels_per_im)
             reg_targets.append(reg_targets_per_im)

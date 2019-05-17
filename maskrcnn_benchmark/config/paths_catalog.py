@@ -6,7 +6,8 @@ import os
 
 class DatasetCatalog(object):
     # DATA_DIR = "D:\\coco"
-    DATA_DIR = "/philly/gcr/resrchvc/t-chdeng/"
+    # DATA_DIR = "/philly/gcr/resrchvc/t-chdeng/"
+    DATA_DIR = "datasets"
     DATASETS = {
         "coco_2014_train_zip":{
             "zip_file": "train2014.zip",

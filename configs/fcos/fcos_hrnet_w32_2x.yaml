@@ -7,10 +7,6 @@ MODEL:
     CONV_BODY: "HRNET-W32"
   RETINANET:
     USE_C5: False # FCOS uses P5 instead of C5
-  HRNET:
-    FPN:
-      TYPE: "HRFPN"
-      CONV_STRIDE: 2 # Match the output of HRFPN to FCOS head.
 DATASETS:
   TRAIN: ("coco_2014_train_zip", "coco_2014_valminusminival_zip")
   TEST: ("coco_2014_minival_zip",)

@@ -1,12 +1,15 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_hrnet.pth"
+  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_hrnet_w32.pth"
   RPN_ONLY: True
   FCOS_ON: True
   BACKBONE:
     CONV_BODY: "HRNET-W32"
   RETINANET:
     USE_C5: False # FCOS uses P5 instead of C5
+  HRNET:
+    FPN:
+      CONV_STRIDE: 1
   FCOS:
     FPN_STRIDES: [4, 8, 16, 32, 64] # Match the input of FCOS head to HRFPN.
 DATASETS:

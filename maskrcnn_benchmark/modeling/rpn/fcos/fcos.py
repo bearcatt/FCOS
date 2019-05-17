@@ -18,6 +18,7 @@ class FCOSHead(torch.nn.Module):
         super(FCOSHead, self).__init__()
         # TODO: Implement the sigmoid version first.
         num_classes = cfg.MODEL.FCOS.NUM_CLASSES - 1
+        num_level = len(cfg.MODEL.FCOS.FPN_STRIDES)
 
         cls_tower = []
         bbox_tower = []
@@ -74,7 +75,7 @@ class FCOSHead(torch.nn.Module):
         bias_value = -math.log((1 - prior_prob) / prior_prob)
         torch.nn.init.constant_(self.cls_logits.bias, bias_value)
 
-        self.scales = nn.ModuleList([Scale(init_value=1.0) for _ in range(5)])
+        self.scales = nn.ModuleList([Scale(init_value=1.0) for _ in range(num_level)])
 
     def forward(self, x):
         logits = []
