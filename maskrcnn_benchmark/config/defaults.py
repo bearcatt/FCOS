@@ -66,6 +66,7 @@ _C.DATASETS = CN()
 _C.DATASETS.TRAIN = ()
 # List of the dataset names for testing, as present in paths_catalog.py
 _C.DATASETS.TEST = ()
+_C.DATASETS.ROOT_DIR = "datasets"
 
 # -----------------------------------------------------------------------------
 # DataLoader
@@ -291,7 +292,7 @@ _C.MODEL.HRNET.FPN.CONV_STRIDE = 2
 # ---------------------------------------------------------------------------- #
 _C.MODEL.FCOS = CN()
 _C.MODEL.FCOS.NUM_CLASSES = 81  # the number of classes including background
-_C.MODEL.FCOS.DILATION = 1
+_C.MODEL.FCOS.DILATION = [1, 1, 1, 1]
 _C.MODEL.FCOS.FPN_STRIDES = [8, 16, 32, 64, 128]
 _C.MODEL.FCOS.TARGET_ASSIGN = [[-1, 64], [64, 128], [128, 256], [256, 512], [512, 100000000]]
 _C.MODEL.FCOS.PRIOR_PROB = 0.01

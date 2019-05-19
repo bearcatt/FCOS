@@ -1,6 +1,5 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_hrnet_w32.pth"
   RPN_ONLY: True
   FCOS_ON: True
   BACKBONE:

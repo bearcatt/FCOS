@@ -5,24 +5,22 @@ import os
 
 
 class DatasetCatalog(object):
-    # DATA_DIR = "D:\\coco"
-    DATA_DIR = "/philly/gcr/resrchvc/t-chdeng/"
-    # DATA_DIR = "datasets"
+    DATA_DIR = "datasets"
     DATASETS = {
         "coco_2014_train_zip":{
-            "zip_file": "train2014.zip",
+            "zip_file": "coco/train2014.zip",
             "ann_file": "coco/annotations/instances_train2014.json"
         },
         "coco_2014_val_zip":{
-            "zip_file": "val2014.zip",
+            "zip_file": "coco/val2014.zip",
             "ann_file": "coco/annotations/instances_val2014.json"
         },
         "coco_2014_minival_zip": {
-            "zip_file": "val2014.zip",
+            "zip_file": "coco/val2014.zip",
             "ann_file": "coco/annotations/instances_minival2014.json"
         },
         "coco_2014_valminusminival_zip": {
-            "zip_file": "val2014.zip",
+            "zip_file": "coco/val2014.zip",
             "ann_file": "coco/annotations/instances_valminusminival2014.json"
         },
 

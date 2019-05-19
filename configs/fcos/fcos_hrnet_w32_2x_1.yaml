@@ -1,6 +1,5 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/philly/gcr/resrchvc/t-chdeng/FCOS/model_hrnet_w32.pth"
   RPN_ONLY: True
   FCOS_ON: True
   BACKBONE:
@@ -23,7 +22,7 @@ INPUT:
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
-  BASE_LR: 0.0075
+  BASE_LR: 0.005
   WEIGHT_DECAY: 0.0001
   STEPS: (180000, 240000)
   MAX_ITER: 270000
