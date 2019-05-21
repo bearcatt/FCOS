@@ -56,18 +56,12 @@ class FCOSHead(torch.nn.Module):
             padding=1
         )
         self.bbox_pred = nn.Conv2d(
-            in_channels, 4, kernel_size=3, stride=1,
-            padding=1
-        )
-        self.centerness = nn.Conv2d(
-            in_channels, 1, kernel_size=3, stride=1,
-            padding=1
+            in_channels, 4, kernel_size=3, stride=1, padding=1
         )
 
         # initialization
         for modules in [self.cls_tower, self.bbox_tower,
-                        self.cls_logits, self.bbox_pred,
-                        self.centerness]:
+                        self.cls_logits, self.bbox_pred]:
             for l in modules.modules():
                 if isinstance(l, nn.Conv2d):
                     torch.nn.init.normal_(l.weight, std=0.01)
@@ -78,24 +72,13 @@ class FCOSHead(torch.nn.Module):
         bias_value = -math.log((1 - prior_prob) / prior_prob)
         torch.nn.init.constant_(self.cls_logits.bias, bias_value)
 
-        self.scales = nn.ModuleList([Scale(init_value=1.0) for _ in range(num_level)])
-
     def forward(self, x):
         logits = []
         bbox_reg = []
-        centerness = []
         for l, feature in enumerate(x):
-            cls_tower = self.cls_tower(feature)
-            logits.append(self.cls_logits(cls_tower))
-
-            # bbox_tower = self.bbox_tower(feature)
-            # bbox_reg.append(torch.exp(self.scales[l](self.bbox_pred(bbox_tower))))
-            # centerness.append(self.centerness(bbox_tower))
-            centerness.append(self.centerness(cls_tower))
-            bbox_reg.append(torch.exp(self.scales[l](
-                self.bbox_pred(self.bbox_tower(feature))
-            )))
-        return logits, bbox_reg, centerness
+            logits.append(self.cls_logits(self.cls_tower(feature)))
+            bbox_reg.append(self.bbox_pred(self.bbox_tower(feature)))
+        return logits, bbox_reg
 
 
 class FCOSModule(torch.nn.Module):
@@ -131,41 +114,37 @@ class FCOSModule(torch.nn.Module):
             losses (dict[Tensor]): the losses for the model during training. During
                 testing, it is an empty dict.
         """
-        box_cls, box_regression, centerness = self.head(features)
-        locations = self.compute_locations(features)
+        box_cls, box_regression = self.head(features)
+        locations, anchor_size = self.compute_locations(features)
  
         if self.training:
             return self._forward_train(
-                locations, box_cls, 
-                box_regression, 
-                centerness, targets
+                locations, anchor_size, box_cls, box_regression, targets
             )
         else:
             return self._forward_test(
-                locations, box_cls, box_regression, 
-                centerness, images.image_sizes
+                locations, anchor_size, box_cls, box_regression, images.image_sizes
             )
 
-    def _forward_train(self, locations, box_cls, box_regression, centerness, targets):
-        loss_box_cls, loss_box_reg, loss_centerness = self.loss_evaluator(
-            locations, box_cls, box_regression, centerness, targets
+    def _forward_train(self, locations, anchor_size, box_cls, box_regression, targets):
+        loss_box_cls, loss_box_reg = self.loss_evaluator(
+            locations, anchor_size, box_cls, box_regression, targets
         )
         losses = {
             "loss_cls": loss_box_cls,
             "loss_reg": loss_box_reg,
-            "loss_centerness": loss_centerness
         }
         return None, losses
 
-    def _forward_test(self, locations, box_cls, box_regression, centerness, image_sizes):
+    def _forward_test(self, locations, anchor_size, box_cls, box_regression, image_sizes):
         boxes = self.box_selector_test(
-            locations, box_cls, box_regression, 
-            centerness, image_sizes
+            locations, anchor_size, box_cls, box_regression, image_sizes
         )
         return boxes, {}
 
     def compute_locations(self, features):
         locations = []
+        anchor_size = []
         for level, feature in enumerate(features):
             h, w = feature.size()[-2:]
             locations_per_level = self.compute_locations_per_level(
@@ -173,7 +152,12 @@ class FCOSModule(torch.nn.Module):
                 feature.device
             )
             locations.append(locations_per_level)
-        return locations
+            anchor_size_ = torch.ones(
+                (h, w), device=feature.device, dtype=feature.dtype
+            )
+            anchor_size_ = anchor_size_.reshape(-1, 1) * self.fpn_strides[level] * 4
+            anchor_size.append(anchor_size_)
+        return locations, anchor_size
 
     def compute_locations_per_level(self, h, w, stride, device):
         shifts_x = torch.arange(
