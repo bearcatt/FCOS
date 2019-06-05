@@ -27,6 +27,9 @@ from maskrcnn_benchmark.layers import Conv2d
 from maskrcnn_benchmark.modeling.make_layers import group_norm
 from maskrcnn_benchmark.utils.registry import Registry
 
+BatchNorm2d = FrozenBatchNorm2d
+# BatchNorm2d = nn.SyncBatchNorm
+# BatchNorm2d = nn.BatchNorm2d
 
 # ResNet stage specification
 StageSpec = namedtuple(
@@ -356,14 +359,14 @@ class BottleneckWithFixedBatchNorm(Bottleneck):
             stride_in_1x1=stride_in_1x1,
             stride=stride,
             dilation=dilation,
-            norm_func=FrozenBatchNorm2d
+            norm_func=BatchNorm2d
         )
 
 
 class StemWithFixedBatchNorm(BaseStem):
     def __init__(self, cfg):
         super(StemWithFixedBatchNorm, self).__init__(
-            cfg, norm_func=FrozenBatchNorm2d
+            cfg, norm_func=BatchNorm2d
         )
 
 

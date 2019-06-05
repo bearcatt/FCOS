@@ -26,6 +26,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 BatchNorm2d = nn.BatchNorm2d
+# BatchNorm2d = nn.SyncBatchNorm
 
 BN_MOMENTUM = 0.1
 
@@ -452,6 +453,6 @@ class HighResolutionNet(nn.Module):
         super(HighResolutionNet, self).train(mode)
         if mode and self.norm_eval:
             for m in self.modules():
-                # trick: eval have effect on BatchNorm only
+                # trick: eval have effect on nn.BatchNorm only
                 if isinstance(m, nn.BatchNorm2d):
                     m.eval()
