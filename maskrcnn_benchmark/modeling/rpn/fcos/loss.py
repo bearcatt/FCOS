@@ -148,36 +148,46 @@ class FCOSLossComputation(object):
             reg_targets_flatten.append(reg_targets[l].reshape(-1, 4))
             centerness_flatten.append(centerness[l].reshape(-1))
 
-        box_cls_flatten = torch.cat(box_cls_flatten, dim=0)
-        box_regression_flatten = torch.cat(box_regression_flatten, dim=0)
-        centerness_flatten = torch.cat(centerness_flatten, dim=0)
-        labels_flatten = torch.cat(labels_flatten, dim=0)
-        reg_targets_flatten = torch.cat(reg_targets_flatten, dim=0)
+        reg_loss_all_level = 0.0
+        centerness_loss_all_level = 0.0
+        for i in range(len(labels_flatten)):
+            label = labels_flatten[i]
+            box_regression = box_regression_flatten[i]
+            reg_targets = reg_targets_flatten[i]
+            centerness = centerness_flatten[i]
 
+            pos_inds = torch.nonzero(label > 0).squeeze(1)
+            print(pos_inds.numel())
+            box_regression = box_regression[pos_inds]
+            reg_targets = reg_targets[pos_inds]
+            centerness = centerness[pos_inds]
+            if pos_inds.numel() > 0:
+                centerness_targets = self.compute_centerness_targets(reg_targets)
+                reg_loss = self.box_reg_loss_func(
+                    box_regression,
+                    reg_targets,
+                    centerness_targets
+                )
+                centerness_loss = self.centerness_loss_func(
+                    centerness,
+                    centerness_targets
+                )
+            else:
+                reg_loss = box_regression.sum()
+                centerness_loss = centerness.sum()
+            
+            reg_loss_all_level += reg_loss
+            centerness_loss_all_level += centerness_loss
+        reg_loss = reg_loss_all_level / len(labels_flatten)
+        centerness_loss = centerness_loss_all_level / len(labels_flatten)
+
+        box_cls_flatten = torch.cat(box_cls_flatten, dim=0)
+        labels_flatten = torch.cat(labels_flatten, dim=0)
         pos_inds = torch.nonzero(labels_flatten > 0).squeeze(1)
         cls_loss = self.cls_loss_func(
             box_cls_flatten,
             labels_flatten.int()
         ) / (pos_inds.numel() + N)  # add N to avoid dividing by a zero
-
-        box_regression_flatten = box_regression_flatten[pos_inds]
-        reg_targets_flatten = reg_targets_flatten[pos_inds]
-        centerness_flatten = centerness_flatten[pos_inds]
-
-        if pos_inds.numel() > 0:
-            centerness_targets = self.compute_centerness_targets(reg_targets_flatten)
-            reg_loss = self.box_reg_loss_func(
-                box_regression_flatten,
-                reg_targets_flatten,
-                centerness_targets
-            )
-            centerness_loss = self.centerness_loss_func(
-                centerness_flatten,
-                centerness_targets
-            )
-        else:
-            reg_loss = box_regression_flatten.sum()
-            centerness_loss = centerness_flatten.sum()
 
         return cls_loss, reg_loss, centerness_loss
 

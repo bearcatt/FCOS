@@ -76,7 +76,6 @@ def build_resnet_fpn_p3p7_backbone(cfg):
 
 @registry.BACKBONES.register("HRNET-W18")
 @registry.BACKBONES.register("HRNET-W32")
-@registry.BACKBONES.register("HRNET-W40")
 def build_hrnet_fpn_backbone(cfg):
     if cfg.MODEL.BACKBONE.CONV_BODY == "HRNET-W18":
         hrnet_args = dict(
