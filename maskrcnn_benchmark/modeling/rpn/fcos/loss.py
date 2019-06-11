@@ -18,7 +18,6 @@ from maskrcnn_benchmark.structures.boxlist_ops import cat_boxlist
 
 INF = 100000000
 
-
 class FCOSLossComputation(object):
     """
     This class computes the FCOS losses.
@@ -34,6 +33,7 @@ class FCOSLossComputation(object):
         self.box_reg_loss_func = IOULoss()
         self.centerness_loss_func = nn.BCEWithLogitsLoss()
         self.object_sizes_of_interest = cfg.MODEL.FCOS.TARGET_ASSIGN
+        # self.count = [0, 0, 0, 0, 0, 0]
 
     def prepare_targets(self, points, targets):
         object_sizes_of_interest = self.object_sizes_of_interest
@@ -157,7 +157,7 @@ class FCOSLossComputation(object):
             centerness = centerness_flatten[i]
 
             pos_inds = torch.nonzero(label > 0).squeeze(1)
-            print(pos_inds.numel())
+            # self.count[i] += pos_inds.numel()
             box_regression = box_regression[pos_inds]
             reg_targets = reg_targets[pos_inds]
             centerness = centerness[pos_inds]
