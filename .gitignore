@@ -35,3 +35,5 @@ job*
 tools/test.py
 tests/test.yaml
 log.txt
+/inference
+exec.sh
