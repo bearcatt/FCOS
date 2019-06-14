@@ -3,7 +3,7 @@ MODEL:
   RPN_ONLY: True
   FCOS_ON: True
   BACKBONE:
-    CONV_BODY: "HRNET-W18"
+    CONV_BODY: "HRNET-W40"
   RETINANET:
     USE_C5: False # FCOS uses P5 instead of C5
   HRNET:
@@ -16,7 +16,7 @@ DATASETS:
   TRAIN: ("coco_2014_train_zip", "coco_2014_valminusminival_zip")
   TEST: ("coco_2014_minival_zip",)
 INPUT:
-  MIN_SIZE_TRAIN: (800,)
+  MIN_SIZE_RANGE_TRAIN: (640, 800)
   MAX_SIZE_TRAIN: 1333
   MIN_SIZE_TEST: 800
   MAX_SIZE_TEST: 1333

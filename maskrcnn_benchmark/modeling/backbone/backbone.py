@@ -142,6 +142,38 @@ def build_hrnet_fpn_backbone(cfg):
                 fuse_method='SUM')
         )
         fpn_in_channels = [32, 64, 128, 256]
+    elif cfg.MODEL.BACKBONE.CONV_BODY == "HRNET-W40":
+        hrnet_args = dict(
+            stage1=dict(
+                num_modules=1,
+                num_branches=1,
+                block='BOTTLENECK',
+                num_blocks=(4,),
+                num_channels=(64,),
+                fuse_method='SUM'),
+            stage2=dict(
+                num_modules=1,
+                num_branches=2,
+                block='BASIC',
+                num_blocks=(4, 4),
+                num_channels=(40, 80),
+                fuse_method='SUM'),
+            stage3=dict(
+                num_modules=4,
+                num_branches=3,
+                block='BASIC',
+                num_blocks=(4, 4, 4),
+                num_channels=(40, 80, 160),
+                fuse_method='SUM'),
+            stage4=dict(
+                num_modules=3,
+                num_branches=4,
+                block='BASIC',
+                num_blocks=(4, 4, 4, 4),
+                num_channels=(40, 80, 160, 320),
+                fuse_method='SUM')
+        )
+        fpn_in_channels = [40, 80, 160, 320]
     else:
         raise NotImplementedError
 
