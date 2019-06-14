@@ -37,3 +37,4 @@ tests/test.yaml
 *log.txt
 /inference
 exec.sh
+last_checkpoint
