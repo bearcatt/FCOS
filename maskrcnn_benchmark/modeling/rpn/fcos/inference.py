@@ -1,10 +1,5 @@
 import torch
 
-from ..inference import RPNPostProcessor
-from ..utils import permute_and_flatten
-
-from maskrcnn_benchmark.modeling.box_coder import BoxCoder
-from maskrcnn_benchmark.modeling.utils import cat
 from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.boxlist_ops import cat_boxlist
 from maskrcnn_benchmark.structures.boxlist_ops import boxlist_nms
@@ -33,7 +28,6 @@ class FCOSPostProcessor(torch.nn.Module):
             fpn_post_nms_top_n (int)
             min_size (int)
             num_classes (int)
-            box_coder (BoxCoder)
         """
         super(FCOSPostProcessor, self).__init__()
         self.pre_nms_thresh = pre_nms_thresh

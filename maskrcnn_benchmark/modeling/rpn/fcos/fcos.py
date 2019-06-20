@@ -19,7 +19,6 @@ class FCOSHead(torch.nn.Module):
         # TODO: Implement the sigmoid version first.
         num_classes = cfg.MODEL.FCOS.NUM_CLASSES - 1
         num_level = len(cfg.MODEL.FCOS.FPN_STRIDES)
-        dilation = cfg.MODEL.FCOS.DILATION
 
         cls_tower = []
         bbox_tower = []
@@ -30,8 +29,7 @@ class FCOSHead(torch.nn.Module):
                     in_channels,
                     kernel_size=3,
                     stride=1,
-                    padding=dilation[i],
-                    dilation=dilation[i]
+                    padding=1,
                 )
             )
             cls_tower.append(nn.GroupNorm(32, in_channels))
@@ -42,8 +40,7 @@ class FCOSHead(torch.nn.Module):
                     in_channels,
                     kernel_size=3,
                     stride=1,
-                    padding=dilation[i],
-                    dilation=dilation[i]
+                    padding=1,
                 )
             )
             bbox_tower.append(nn.GroupNorm(32, in_channels))
