@@ -5,6 +5,7 @@ import zipfile
 from PIL import Image
 
 import torch
+import torchvision
 from torch.utils.data import Dataset
 
 from maskrcnn_benchmark.structures.bounding_box import BoxList
@@ -39,45 +40,7 @@ def has_valid_annotation(anno):
     return False
 
 
-class VisionDataset(Dataset):
-    _repr_indent = 4
-
-    def __init__(self, zipname):
-        if isinstance(zipname, torch._six.string_classes):
-            zipname = os.path.expanduser(zipname)
-        self.zipname = zipname
-
-    def __getitem__(self, index):
-        raise NotImplementedError
-
-    def __len__(self):
-        raise NotImplementedError
-
-    def __repr__(self):
-        head = "Dataset " + self.__class__.__name__
-        body = ["Number of datapoints: {}".format(self.__len__())]
-        if self.zipname is not None:
-            body.append("Zip file location: {}".format(self.zipname))
-        body += self.extra_repr().splitlines()
-        if hasattr(self, 'transform') and self.transform is not None:
-            body += self._format_transform_repr(self.transform,
-                                                "Transforms: ")
-        if hasattr(self, 'target_transform') and self.target_transform is not None:
-            body += self._format_transform_repr(self.target_transform,
-                                                "Target transforms: ")
-        lines = [head] + [" " * self._repr_indent + line for line in body]
-        return '\n'.join(lines)
-
-    def _format_transform_repr(self, transform, head):
-        lines = transform.__repr__().splitlines()
-        return (["{}{}".format(head, lines[0])] +
-                ["{}{}".format(" " * len(head), line) for line in lines[1:]])
-
-    def extra_repr(self):
-        return ""
-
-
-class ZipDataset(VisionDataset):
+class ZipDataset(torchvision.datasets.vision.VisionDataset):
     """
     Args:
         zipname (string): the zip file that contains images.
@@ -96,9 +59,9 @@ class ZipDataset(VisionDataset):
         self.coco = COCO(annFile)
         self.ids = list(self.coco.imgs.keys())
         # Dataset will be serialized and pass to many process, 
-        # but file handles don't serialize very well, which will cause an exception. (why?)
+        # but file handles don't serialize very well, which will cause an exception.
         # self.zipfile = zipfile.ZipFile(zipname, 'r')
-        self.zipname_prefix = os.path.splitext(os.path.basename(self.zipname))[0]
+        self.zipname_prefix = os.path.splitext(os.path.basename(self.root))[0]
 
     def __getitem__(self, index):
         """
@@ -113,7 +76,7 @@ class ZipDataset(VisionDataset):
         target = coco.loadAnns(ann_ids)
 
         path = coco.loadImgs(img_id)[0]['file_name']
-        with zipfile.ZipFile(self.zipname, 'r') as f:
+        with zipfile.ZipFile(self.root, 'r') as f:
             data = io.BytesIO(f.read(self.zipname_prefix + "/" + path))
             img = Image.open(data).convert('RGB')
 
