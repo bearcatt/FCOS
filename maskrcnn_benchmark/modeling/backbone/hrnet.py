@@ -25,8 +25,8 @@ SOFTWARE.
 import torch.nn as nn
 import torch.nn.functional as F
 
-BatchNorm2d = nn.BatchNorm2d
-# BatchNorm2d = nn.SyncBatchNorm
+# BatchNorm2d = nn.BatchNorm2d
+BatchNorm2d = nn.SyncBatchNorm
 
 BN_MOMENTUM = 0.1
 
