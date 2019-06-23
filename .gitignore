@@ -3,7 +3,6 @@ __pycache__
 _ext
 *.pyc
 *.so
-*.pyd
 maskrcnn_benchmark.egg-info/
 build/
 dist/
@@ -29,12 +28,3 @@ dist/
 # project dirs
 /datasets
 /models
-/.vscode
-
-job*
-tools/test.py
-tests/test.yaml
-*log.txt
-/inference
-exec.sh
-last_checkpoint

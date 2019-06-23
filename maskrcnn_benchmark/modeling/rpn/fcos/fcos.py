@@ -109,8 +109,8 @@ class FCOSModule(torch.nn.Module):
 
         head = FCOSHead(cfg, in_channels)
         box_selector_test = make_fcos_postprocessor(cfg)
-        loss_evaluator = make_fcos_loss_evaluator(cfg)
 
+        loss_evaluator = make_fcos_loss_evaluator(cfg)
         self.head = head
         self.box_selector_test = box_selector_test
         self.loss_evaluator = loss_evaluator
