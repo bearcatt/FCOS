@@ -2,8 +2,8 @@
 
 This project hosts the code for implementing the FCOS algorithm for object detection, as presented in our paper:
 
-    FCOS: Fully Convolutional One-Stage Object Detection,
-    Tian, Zhi, Chunhua Shen, Hao Chen, and Tong He,
+    FCOS: Fully Convolutional One-Stage Object Detection;
+    Tian Zhi, Chunhua Shen, Hao Chen, and Tong He;
     arXiv preprint arXiv:1904.01355 (2019).
 
 The full paper is available at: [https://arxiv.org/abs/1904.01355](https://arxiv.org/abs/1904.01355). 
@@ -16,6 +16,10 @@ The full paper is available at: [https://arxiv.org/abs/1904.01355](https://arxiv
 - **State-of-the-art performance:** Without bells and whistles, FCOS achieves state-of-the-art performances.
 It achieves **41.5%** (ResNet-101-FPN) and **43.2%** (ResNeXt-64x4d-101) in AP on coco test-dev.
 
+## Updates
+### 17 May 2019
+   - FCOS has been implemented in [mmdetection](https://github.com/open-mmlab/mmdetection). Many thanks to [@yhcao6](https://github.com/yhcao6) and [@hellock](https://github.com/hellock).
+
 ## Required hardware
 We use 8 Nvidia V100 GPUs. \
 But 4 1080Ti GPUs can also train a fully-fledged ResNet-50-FPN based FCOS since FCOS is memory-efficient.  
@@ -26,6 +30,15 @@ This FCOS implementation is based on [maskrcnn-benchmark](https://github.com/fac
 
 Please check [INSTALL.md](INSTALL.md) for installation instructions.
 You may also want to see the original [README.md](MASKRCNN_README.md) of maskrcnn-benchmark.
+
+## A quick demo
+Once the installation is done, you can follow the below steps to run a quick demo.
+    
+    # assume that you are under the root directory of this project,
+    # and you have activated your virtual environment if needed.
+    wget https://cloudstor.aarnet.edu.au/plus/s/dDeDPBLEAt19Xrl/download -O FCOS_R_50_FPN_1x.pth
+    python demo/fcos_demo.py
+
 
 ## Inference
 The inference command line on coco minival split:
@@ -49,11 +62,10 @@ FCOS_R_101_FPN_2x | 44.1 | Yes | 74ms | 41.4 | 41.5 | [download](https://cloudst
 FCOS_X_101_32x8d_FPN_2x | 72.9 | Yes | 122ms | 42.5 | 42.7 | [download](https://cloudstor.aarnet.edu.au/plus/s/U5myBfGF7MviZ97/download)
 FCOS_X_101_64x4d_FPN_2x | 77.7 | Yes | 140ms | 43.0 | 43.2 | [download](https://cloudstor.aarnet.edu.au/plus/s/wpwoCi4S8iajFi9/download)
 
-[1] *1x means the model is trained for 90K iterations.* \
-[2] *2x means the model is trained for 180K iterations.* \
-[3] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark*. \
-[4] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
-[5] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
+[1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
+[2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark*. \
+[3] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
+[4] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
 
 ## Training
 
@@ -69,12 +81,11 @@ The following command line will train FCOS_R_50_FPN_1x on 8 GPUs with Synchronou
         OUTPUT_DIR training_dir/fcos_R_50_FPN_1x
         
 Note that:
- 
-1) If you want to use fewer GPUs, please reduce `--nproc_per_node`. The total batch size does not depends on `nproc_per_node`. If you want to change the total batch size, please change `SOLVER.IMS_PER_BATCH` in [configs/fcos/fcos_R_50_FPN_1x.yaml](configs/fcos/fcos_R_50_FPN_1x.yaml).
+1) If you want to use fewer GPUs, please change `--nproc_per_node` to the number of GPUs. No other settings need to be changed. The total batch size does not depends on `nproc_per_node`. If you want to change the total batch size, please change `SOLVER.IMS_PER_BATCH` in [configs/fcos/fcos_R_50_FPN_1x.yaml](configs/fcos/fcos_R_50_FPN_1x.yaml).
 2) The models will be saved into `OUTPUT_DIR`.
 3) If you want to train FCOS with other backbones, please change `--config-file`.
-4) Sometimes you may encounter a deadlock with 100% GPUs' usage, which might be a problem of NCCL. Please try `export NCCL_P2P_DISABLE=1` before running the training command line.
-
+4) The link of ImageNet pre-training X-101-64x4d in the code is invalid. Please download the model [here](https://cloudstor.aarnet.edu.au/plus/s/k3ys35075jmU1RP/download).
+5) If you want to train FCOS on your own dataset, please follow this instruction [#54](https://github.com/tianzhi0549/FCOS/issues/54#issuecomment-497558687).
 ## Contributing to the project
 
 Any pull requests or issues are welcome.
