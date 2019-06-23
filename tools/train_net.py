@@ -38,7 +38,7 @@ def train(cfg, local_rank, distributed):
         model = torch.nn.parallel.DistributedDataParallel(
             model, device_ids=[local_rank], output_device=local_rank,
             # this should be commented if we update BatchNorm stats
-            # broadcast_buffers=False,
+            broadcast_buffers=False,
         )
 
     arguments = {}

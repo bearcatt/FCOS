@@ -55,18 +55,19 @@ def to_image_list(tensors, size_divisible=0):
             import math
 
             max_size = list(max_size)
-            # stride = size_divisible
-            # max_size[1] = int(math.ceil(max_size[1] / stride) * stride)
-            # max_size[2] = int(math.ceil(max_size[2] / stride) * stride)
+            stride = size_divisible
+            max_size[1] = int(math.ceil(max_size[1] / stride) * stride)
+            max_size[2] = int(math.ceil(max_size[2] / stride) * stride)
 
-            if max_size[1] > max_size[2]:
-                max_size[1] = 1344
-                max_size[2] = 800
-            elif max_size[1] < max_size[2]:
-                max_size[1] = 800
-                max_size[2] = 1344
-            else:
-                max_size[1] = max_size[2] = 800
+            # NOTE: Fixes padding for SyncBN, leads to 1% improvement for batch_size 8.
+            # if max_size[1] > max_size[2]:
+            #     max_size[1] = 1344
+            #     max_size[2] = 800
+            # elif max_size[1] < max_size[2]:
+            #     max_size[1] = 800
+            #     max_size[2] = 1344
+            # else:
+            #     max_size[1] = max_size[2] = 800
 
             max_size = tuple(max_size)
 

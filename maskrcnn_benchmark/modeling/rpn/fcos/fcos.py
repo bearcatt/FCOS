@@ -85,13 +85,16 @@ class FCOSHead(torch.nn.Module):
             cls_tower = self.cls_tower(feature)
             logits.append(self.cls_logits(cls_tower))
 
-            bbox_tower = self.bbox_tower(feature)
-            bbox_reg.append(torch.exp(self.scales[l](self.bbox_pred(bbox_tower))))
-            centerness.append(self.centerness(bbox_tower))
-            # centerness.append(self.centerness(cls_tower))
-            # bbox_reg.append(torch.exp(self.scales[l](
-            #     self.bbox_pred(self.bbox_tower(feature))
-            # )))
+            # NOTE: Apply centerness branch on box tower lead to 0.5% improvement.
+            #       Just uncomment the line 91-93 and comment line 94-97.
+            # bbox_tower = self.bbox_tower(feature)
+            # bbox_reg.append(torch.exp(self.scales[l](self.bbox_pred(bbox_tower))))
+            # centerness.append(self.centerness(bbox_tower))
+
+            centerness.append(self.centerness(cls_tower))
+            bbox_reg.append(torch.exp(self.scales[l](
+                self.bbox_pred(self.bbox_tower(feature))
+            )))
         return logits, bbox_reg, centerness
 
 
