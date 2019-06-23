@@ -10,8 +10,8 @@ MODEL:
   RETINANET:
     USE_C5: False # FCOS uses P5 instead of C5
 DATASETS:
-  TRAIN: ("coco_2014_train_zip", "coco_2014_valminusminival_zip")
-  TEST: ("coco_2014_minival_zip",)
+  TRAIN: ("coco_2014_train", "coco_2014_valminusminival")
+  TEST: ("coco_2014_minival",)
 INPUT:
   MIN_SIZE_RANGE_TRAIN: (640, 800)
   MAX_SIZE_TRAIN: 1333

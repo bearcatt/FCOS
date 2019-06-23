@@ -7,23 +7,6 @@ import os
 class DatasetCatalog(object):
     DATA_DIR = "datasets"
     DATASETS = {
-        "coco_2014_train_zip":{
-            "zip_file": "coco/train2014.zip",
-            "ann_file": "coco/annotations/instances_train2014.json"
-        },
-        "coco_2014_val_zip":{
-            "zip_file": "coco/val2014.zip",
-            "ann_file": "coco/annotations/instances_val2014.json"
-        },
-        "coco_2014_minival_zip": {
-            "zip_file": "coco/val2014.zip",
-            "ann_file": "coco/annotations/instances_minival2014.json"
-        },
-        "coco_2014_valminusminival_zip": {
-            "zip_file": "coco/val2014.zip",
-            "ann_file": "coco/annotations/instances_valminusminival2014.json"
-        },
-
         "coco_2017_train": {
             "img_dir": "coco/train2017",
             "ann_file": "coco/annotations/instances_train2017.json"
@@ -125,18 +108,7 @@ class DatasetCatalog(object):
 
     @staticmethod
     def get(name):
-        if "zip" in name:
-            data_dir = DatasetCatalog.DATA_DIR
-            attrs = DatasetCatalog.DATASETS[name]
-            args = dict(
-                zipname=os.path.join(data_dir, attrs["zip_file"]),
-                ann_file=os.path.join(data_dir, attrs["ann_file"]),
-            )
-            return dict(
-                factory="COCOZipDataset",
-                args=args,
-            )
-        elif "coco" in name:
+        if "coco" in name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(

@@ -58,7 +58,7 @@ def build_resnet_fpn_p3p7_backbone(cfg):
         else out_channels
     fpn = fpn_module.FPN(
         in_channels_list=[
-            0,
+            0 if len(cfg.MODEL.FCOS.FPN_STRIDES) == 5 else in_channels_stage2,
             in_channels_stage2 * 2,
             in_channels_stage2 * 4,
             in_channels_stage2 * 8,
