@@ -79,103 +79,45 @@ def build_resnet_fpn_p3p7_backbone(cfg):
 @registry.BACKBONES.register("HRNET-W40")
 def build_hrnet_fpn_backbone(cfg):
     if cfg.MODEL.BACKBONE.CONV_BODY == "HRNET-W18":
-        hrnet_args = dict(
-            stage1=dict(
-                num_modules=1,
-                num_branches=1,
-                block='BOTTLENECK',
-                num_blocks=(4,),
-                num_channels=(64,),
-                fuse_method='SUM'),
-            stage2=dict(
-                num_modules=1,
-                num_branches=2,
-                block='BASIC',
-                num_blocks=(4, 4),
-                num_channels=(18, 36),
-                fuse_method='SUM'),
-            stage3=dict(
-                num_modules=4,
-                num_branches=3,
-                block='BASIC',
-                num_blocks=(4, 4, 4),
-                num_channels=(18, 36, 72),
-                fuse_method='SUM'),
-            stage4=dict(
-                num_modules=3,
-                num_branches=4,
-                block='BASIC',
-                num_blocks=(4, 4, 4, 4),
-                num_channels=(18, 36, 72, 144),
-                fuse_method='SUM')
-        )
-        fpn_in_channels = [18, 36, 72, 144]
+        width = 18
     elif cfg.MODEL.BACKBONE.CONV_BODY == "HRNET-W32":
-        hrnet_args = dict(
-            stage1=dict(
-                num_modules=1,
-                num_branches=1,
-                block='BOTTLENECK',
-                num_blocks=(4,),
-                num_channels=(64,),
-                fuse_method='SUM'),
-            stage2=dict(
-                num_modules=1,
-                num_branches=2,
-                block='BASIC',
-                num_blocks=(4, 4),
-                num_channels=(32, 64),
-                fuse_method='SUM'),
-            stage3=dict(
-                num_modules=4,
-                num_branches=3,
-                block='BASIC',
-                num_blocks=(4, 4, 4),
-                num_channels=(32, 64, 128),
-                fuse_method='SUM'),
-            stage4=dict(
-                num_modules=3,
-                num_branches=4,
-                block='BASIC',
-                num_blocks=(4, 4, 4, 4),
-                num_channels=(32, 64, 128, 256),
-                fuse_method='SUM')
-        )
-        fpn_in_channels = [32, 64, 128, 256]
+        width = 32
     elif cfg.MODEL.BACKBONE.CONV_BODY == "HRNET-W40":
-        hrnet_args = dict(
-            stage1=dict(
-                num_modules=1,
-                num_branches=1,
-                block='BOTTLENECK',
-                num_blocks=(4,),
-                num_channels=(64,),
-                fuse_method='SUM'),
-            stage2=dict(
-                num_modules=1,
-                num_branches=2,
-                block='BASIC',
-                num_blocks=(4, 4),
-                num_channels=(40, 80),
-                fuse_method='SUM'),
-            stage3=dict(
-                num_modules=4,
-                num_branches=3,
-                block='BASIC',
-                num_blocks=(4, 4, 4),
-                num_channels=(40, 80, 160),
-                fuse_method='SUM'),
-            stage4=dict(
-                num_modules=3,
-                num_branches=4,
-                block='BASIC',
-                num_blocks=(4, 4, 4, 4),
-                num_channels=(40, 80, 160, 320),
-                fuse_method='SUM')
-        )
-        fpn_in_channels = [40, 80, 160, 320]
+        width = 40
     else:
         raise NotImplementedError
+
+    hrnet_args = dict(
+        stage1=dict(
+            num_modules=1,
+            num_branches=1,
+            block='BOTTLENECK',
+            num_blocks=(4,),
+            num_channels=(64,),
+            fuse_method='SUM'),
+        stage2=dict(
+            num_modules=1,
+            num_branches=2,
+            block='BASIC',
+            num_blocks=(4, 4),
+            num_channels=(width, width * 2),
+            fuse_method='SUM'),
+        stage3=dict(
+            num_modules=4,
+            num_branches=3,
+            block='BASIC',
+            num_blocks=(4, 4, 4),
+            num_channels=(width, width * 2, width * 4),
+            fuse_method='SUM'),
+        stage4=dict(
+            num_modules=3,
+            num_branches=4,
+            block='BASIC',
+            num_blocks=(4, 4, 4, 4),
+            num_channels=(width, width * 2, width * 4, width * 8),
+            fuse_method='SUM')
+    )
+    fpn_in_channels = [width, width * 2, width * 4, width * 8]
 
     body = hrnet.HighResolutionNet(extra=hrnet_args)
     fpn = getattr(hrfpn_module, cfg.MODEL.HRNET.FPN.TYPE)(
