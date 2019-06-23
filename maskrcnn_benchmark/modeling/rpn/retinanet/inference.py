@@ -49,55 +49,12 @@ class RetinaNetPostProcessor(RPNPostProcessor):
         if box_coder is None:
             box_coder = BoxCoder(weights=(10., 10., 5., 5.))
         self.box_coder = box_coder
-
-        self.stride = (8, 16, 32, 64, 128)
-        self.counter = 0
  
     def add_gt_proposals(self, proposals, targets):
         """
         This function is not used in RetinaNet
         """
         pass
-
-    def compute_centerness(self, anchor, box_regression, height, width, count):
-        """
-        Args:
-            anchor: list[BoxList] N * (H * W * A, 4)
-            box_regression: (N, H * W * A, 4)
-        Return:
-            centerness: (N, H * W * A)
-        """
-        stride = self.stride[self.counter]
-        self.counter = (self.counter + 1) % 5
-        
-        device = box_regression.device
-        shifts_x = torch.arange(
-            0, width * stride, step=stride, dtype=torch.float32, device=device
-        )
-        shifts_y = torch.arange(
-            0, height * stride, step=stride, dtype=torch.float32, device=device
-        )
-        shift_y, shift_x = torch.meshgrid(shifts_y, shifts_x)
-        shift_x = shift_x.reshape(-1, 1).expand(-1, count).reshape(-1)
-        shift_y = shift_y.reshape(-1, 1).expand(-1, count).reshape(-1)
-        centerness = []
-
-        for anchor_per_image, box_regression_per_image in zip(anchor, box_regression):
-            boxes = self.box_coder.decode(box_regression_per_image, anchor_per_image.bbox)
-            x1, y1, x2, y2 = torch.unbind(boxes, dim=1) # (H * W * A)
-
-            l = shift_x - x1
-            r = x2 - shift_x
-            t = shift_y - y1
-            b = y2 - shift_y
-
-            center_ness = torch.sqrt(
-                torch.clamp((torch.min(l, r) / torch.max(l, r)), min=0, max=1) * 
-                torch.clamp((torch.min(t, b) / torch.max(t, b)), min=0, max=1))
-            centerness.append(center_ness)
-            
-        centerness = torch.stack(centerness, dim=0)
-        return centerness
 
     def forward_for_single_feature_map(
             self, anchors, box_cls, box_regression):
@@ -125,9 +82,6 @@ class RetinaNetPostProcessor(RPNPostProcessor):
 
         pre_nms_top_n = candidate_inds.view(N, -1).sum(1)
         pre_nms_top_n = pre_nms_top_n.clamp(max=self.pre_nms_top_n)
-
-        centerness = self.compute_centerness(anchors, box_regression, H, W, A)
-        box_cls = box_cls * centerness[:,:,None]
 
         results = []
         for per_box_cls, per_box_regression, per_pre_nms_top_n, \

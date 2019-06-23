@@ -29,7 +29,7 @@ class FCOSHead(torch.nn.Module):
                     in_channels,
                     kernel_size=3,
                     stride=1,
-                    padding=1,
+                    padding=1
                 )
             )
             cls_tower.append(nn.GroupNorm(32, in_channels))
@@ -40,7 +40,7 @@ class FCOSHead(torch.nn.Module):
                     in_channels,
                     kernel_size=3,
                     stride=1,
-                    padding=1,
+                    padding=1
                 )
             )
             bbox_tower.append(nn.GroupNorm(32, in_channels))

@@ -66,7 +66,6 @@ _C.DATASETS = CN()
 _C.DATASETS.TRAIN = ()
 # List of the dataset names for testing, as present in paths_catalog.py
 _C.DATASETS.TEST = ()
-_C.DATASETS.ROOT_DIR = "datasets"
 
 # -----------------------------------------------------------------------------
 # DataLoader
@@ -426,7 +425,7 @@ _C.SOLVER.WARMUP_FACTOR = 1.0 / 3
 _C.SOLVER.WARMUP_ITERS = 500
 _C.SOLVER.WARMUP_METHOD = "linear"
 
-_C.SOLVER.CHECKPOINT_PERIOD = 1500
+_C.SOLVER.CHECKPOINT_PERIOD = 2500
 
 # Number of images per batch
 # This is global, so if we have 8 GPUs and IMS_PER_BATCH = 16, each GPU will
