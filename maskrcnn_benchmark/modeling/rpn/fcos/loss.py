@@ -79,8 +79,14 @@ class FCOSLossComputation(object):
             b = bboxes[:, 3][None] - ys[:, None]
             reg_targets_per_im = torch.stack([l, t, r, b], dim=2)
 
+            if bboxes.numel() == 0:
+                labels_per_im = torch.zeros(xs.shape).long().to(xs.device)
+                reg_targets_per_im = torch.zeros((xs.shape[0], 4), dtype=torch.float32, device=xs.device)
+                labels.append(labels_per_im)
+                reg_targets.append(reg_targets_per_im)
+                continue
+ 
             is_in_boxes = reg_targets_per_im.min(dim=2)[0] > 0
-
             max_reg_targets_per_im = reg_targets_per_im.max(dim=2)[0]
             # limit the regression range for each location
             is_cared_in_the_level = \
@@ -177,10 +183,11 @@ class FCOSLossComputation(object):
             indicator = labels[l].reshape(-1) > 0
             pos_inds = torch.nonzero(indicator).squeeze(1)
 
-            centerness_target = torch.zeros_like(labels[l])
+            centerness_target = torch.zeros_like(centerness[l].reshape(-1))
             reg_target = reg_targets[l].reshape(-1, 4)
             reg_target = reg_target[pos_inds]
-            centerness_target[pos_inds] = self.compute_centerness_targets(reg_target, pos_inds)
+            if pos_inds.numel() > 0:
+                centerness_target[pos_inds] = self.compute_centerness_targets(reg_target)
 
             indicator = indicator.type_as(centerness_target)
             centerness_target *= indicator
