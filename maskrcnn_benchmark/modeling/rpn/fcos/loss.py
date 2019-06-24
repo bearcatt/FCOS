@@ -175,9 +175,9 @@ class FCOSLossComputation(object):
         centerness_targets = []
         for l in range(len(labels)):
             indicator = labels[l].reshape(-1) > 0
-            indicator = indicator.type_as(centerness_flatten)
             reg_target = reg_targets[l].reshape(-1, 4)
             centerness_target = self.compute_centerness_targets(reg_target)
+            indicator = indicator.type_as(centerness_target)
             centerness_target *= indicator
             centerness_targets.append(centerness_targets)
         return None, None, None, centerness_targets
