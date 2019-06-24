@@ -20,6 +20,7 @@ def compute_on_dataset(model, data_loader, device, timer=None):
     for _, batch in enumerate(tqdm(data_loader)):
         images, targets, image_ids = batch
         images = images.to(device)
+        targets = [target.to(device) for target in targets]
         with torch.no_grad():
             if timer:
                 timer.tic()
