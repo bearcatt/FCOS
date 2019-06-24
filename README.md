@@ -57,10 +57,17 @@ For your convenience, we provide the following trained models (more models are c
 
 Model | Total training mem (GB) | Multi-scale training | Testing time / im | AP (minival) | AP (test-dev) | Link
 --- |:---:|:---:|:---:|:---:|:--:|:---:
-FCOS_R_50_FPN_1x | 29.3 | No | 71ms | 37.1 | 37.4 | [download](https://cloudstor.aarnet.edu.au/plus/s/dDeDPBLEAt19Xrl/download)
-FCOS_R_101_FPN_2x | 44.1 | Yes | 74ms | 41.4 | 41.5 | [download](https://cloudstor.aarnet.edu.au/plus/s/vjL3L0AW7vnhRTo/download)
-FCOS_X_101_32x8d_FPN_2x | 72.9 | Yes | 122ms | 42.5 | 42.7 | [download](https://cloudstor.aarnet.edu.au/plus/s/U5myBfGF7MviZ97/download)
-FCOS_X_101_64x4d_FPN_2x | 77.7 | Yes | 140ms | 43.0 | 43.2 | [download](https://cloudstor.aarnet.edu.au/plus/s/wpwoCi4S8iajFi9/download)
+FCOS_HRNet_W18_5l_2x           | 54.4 | No  | 72ms  | 37.7 |      | [download]()
+FCOS_HRNet_W18_6l_1x           |      | No  | 103ms | 34.5 |      | [download]()
+FCOS_HRNet_W18_6l_2x           |      | No  | 105ms | 37.8 |      | [download]()
+FCOS_HRNet_W32_5l_2x           | 78.9 | Yes | 82ms  | 41.9 |      | [download]()
+FCOS_HRNet_W32_6l_2x           | 108.6| Yes |       | 42.1 |      | [download]()
+FCOS_HRNet_W40_5l_2x           |      | Yes |       |      |      | [download]()
+FCOS_HRNet_W40_6l_2x           |      | Yes | 139ms | 42.0 |      | [download]()
+FCOS_HRNet_W40_6l_3x           |      | Yes | 139ms | 42.6 |      | [download]()
+FCOS_HRNet_W32_6l_2x_syncBN    | 112.0| Yes |       | -    |      | [download]()
+FCOS_HRNet_W32_6l_2x_syncBN*   | 112.0| Yes |       | -    |      | [download]()
+FCOS_HRNet_W32_6l_2x_syncBN**  | 112.0| Yes |       | -    |      | [download]()
 
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
 [2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark*. \
@@ -91,8 +98,15 @@ Note that:
 Any pull requests or issues are welcome.
 
 ## Citations
-Please consider citing our paper in your publications if the project helps your research. BibTeX reference is as follows.
+Please consider citing these papers in your publications if the project helps your research. BibTeX reference is as follows.
 ```
+@article{sun2019deep,
+  title={Deep High-Resolution Representation Learning for Human Pose Estimation},
+  author={Sun, Ke and Xiao, Bin and Liu, Dong and Wang, Jingdong},
+  journal={arXiv preprint arXiv:1902.09212},
+  year={2019}
+}
+
 @article{tian2019fcos,
   title   =  {{FCOS}: Fully Convolutional One-Stage Object Detection},
   author  =  {Tian, Zhi and Shen, Chunhua and Chen, Hao and He, Tong},
