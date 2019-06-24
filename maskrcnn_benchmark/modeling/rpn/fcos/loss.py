@@ -129,23 +129,23 @@ class FCOSLossComputation(object):
         num_classes = box_cls[0].size(1)
         labels, reg_targets = self.prepare_targets(locations, targets)
 
-        box_cls_flatten = []
-        box_regression_flatten = []
-        centerness_flatten = []
-        labels_flatten = []
-        reg_targets_flatten = []
-        for l in range(len(labels)):
-            box_cls_flatten.append(box_cls[l].permute(0, 2, 3, 1).reshape(-1, num_classes))
-            box_regression_flatten.append(box_regression[l].permute(0, 2, 3, 1).reshape(-1, 4))
-            labels_flatten.append(labels[l].reshape(-1))
-            reg_targets_flatten.append(reg_targets[l].reshape(-1, 4))
-            centerness_flatten.append(centerness[l].reshape(-1))
+        # box_cls_flatten = []
+        # box_regression_flatten = []
+        # centerness_flatten = []
+        # labels_flatten = []
+        # reg_targets_flatten = []
+        # for l in range(len(labels)):
+        #     box_cls_flatten.append(box_cls[l].permute(0, 2, 3, 1).reshape(-1, num_classes))
+        #     box_regression_flatten.append(box_regression[l].permute(0, 2, 3, 1).reshape(-1, 4))
+        #     labels_flatten.append(labels[l].reshape(-1))
+        #     reg_targets_flatten.append(reg_targets[l].reshape(-1, 4))
+        #     centerness_flatten.append(centerness[l].reshape(-1))
 
-        box_cls_flatten = torch.cat(box_cls_flatten, dim=0)
-        box_regression_flatten = torch.cat(box_regression_flatten, dim=0)
-        centerness_flatten = torch.cat(centerness_flatten, dim=0)
-        labels_flatten = torch.cat(labels_flatten, dim=0)
-        reg_targets_flatten = torch.cat(reg_targets_flatten, dim=0)
+        # box_cls_flatten = torch.cat(box_cls_flatten, dim=0)
+        # box_regression_flatten = torch.cat(box_regression_flatten, dim=0)
+        # centerness_flatten = torch.cat(centerness_flatten, dim=0)
+        # labels_flatten = torch.cat(labels_flatten, dim=0)
+        # reg_targets_flatten = torch.cat(reg_targets_flatten, dim=0)
 
         # pos_inds = torch.nonzero(labels_flatten > 0).squeeze(1)
         # cls_loss = self.cls_loss_func(
@@ -156,11 +156,7 @@ class FCOSLossComputation(object):
         # box_regression_flatten = box_regression_flatten[pos_inds]
         # reg_targets_flatten = reg_targets_flatten[pos_inds]
 
-        indicator = labels_flatten > 0
-        centerness_flatten = centerness_flatten * indicator.type_as(centerness_flatten)
-
         # if pos_inds.numel() > 0:
-        #     centerness_targets = self.compute_centerness_targets(reg_targets_flatten)
         #     reg_loss = self.box_reg_loss_func(
         #         box_regression_flatten,
         #         reg_targets_flatten,
@@ -175,7 +171,16 @@ class FCOSLossComputation(object):
         #     centerness_loss = centerness_flatten.sum()
 
         # return cls_loss, reg_loss, centerness_loss, centerness_targets
-        return None, None, None, centerness_flatten
+
+        centerness_targets = []
+        for l in range(len(labels)):
+            indicator = labels[l].reshape(-1) > 0
+            indicator = indicator.type_as(centerness_flatten)
+            reg_target = reg_targets[l].reshape(-1, 4)
+            centerness_target = self.compute_centerness_targets(reg_target)
+            centerness_target *= indicator
+            centerness_targets.append(centerness_targets)
+        return None, None, None, centerness_targets
 
 
 def make_fcos_loss_evaluator(cfg):
