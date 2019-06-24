@@ -175,7 +175,7 @@ class FCOSLossComputation(object):
         #     centerness_loss = centerness_flatten.sum()
 
         # return cls_loss, reg_loss, centerness_loss, centerness_targets
-        return None, None, None, centerness_targets
+        return None, None, None, centerness_flatten
 
 
 def make_fcos_loss_evaluator(cfg):
