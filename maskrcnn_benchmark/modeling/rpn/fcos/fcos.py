@@ -141,7 +141,7 @@ class FCOSModule(torch.nn.Module):
                 centerness, targets
             )
         else:
-            loss, gt_centerness = self._forward_train(
+            _, loss, gt_centerness = self._forward_train(
                 locations, box_cls, 
                 box_regression, 
                 centerness, targets
