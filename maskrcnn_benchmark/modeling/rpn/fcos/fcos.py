@@ -141,13 +141,18 @@ class FCOSModule(torch.nn.Module):
                 centerness, targets
             )
         else:
+            loss, gt_centerness = self._forward_train(
+                locations, box_cls, 
+                box_regression, 
+                centerness, targets
+            )
             return self._forward_test(
                 locations, box_cls, box_regression, 
-                centerness, images.image_sizes
+                gt_centerness, images.image_sizes
             )
 
     def _forward_train(self, locations, box_cls, box_regression, centerness, targets):
-        loss_box_cls, loss_box_reg, loss_centerness = self.loss_evaluator(
+        loss_box_cls, loss_box_reg, loss_centerness, gt_centerness = self.loss_evaluator(
             locations, box_cls, box_regression, centerness, targets
         )
         losses = {
@@ -155,7 +160,7 @@ class FCOSModule(torch.nn.Module):
             "loss_reg": loss_box_reg,
             "loss_centerness": loss_centerness
         }
-        return None, losses
+        return None, losses, gt_centerness
 
     def _forward_test(self, locations, box_cls, box_regression, centerness, image_sizes):
         boxes = self.box_selector_test(
