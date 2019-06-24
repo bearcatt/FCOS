@@ -179,7 +179,7 @@ class FCOSLossComputation(object):
             centerness_target = self.compute_centerness_targets(reg_target)
             indicator = indicator.type_as(centerness_target)
             centerness_target *= indicator
-            centerness_targets.append(centerness_targets)
+            centerness_targets.append(centerness_target)
         return None, None, None, centerness_targets
 
 
