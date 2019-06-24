@@ -175,8 +175,13 @@ class FCOSLossComputation(object):
         centerness_targets = []
         for l in range(len(labels)):
             indicator = labels[l].reshape(-1) > 0
+            pos_inds = torch.nonzero(indicator).squeeze(1)
+
+            centerness_target = torch.zeros_like(labels[l])
             reg_target = reg_targets[l].reshape(-1, 4)
-            centerness_target = self.compute_centerness_targets(reg_target)
+            reg_target = reg_target[pos_inds]
+            centerness_target[pos_inds] = self.compute_centerness_targets(reg_target, pos_inds)
+
             indicator = indicator.type_as(centerness_target)
             centerness_target *= indicator
             centerness_targets.append(centerness_target)
