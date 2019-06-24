@@ -147,32 +147,34 @@ class FCOSLossComputation(object):
         labels_flatten = torch.cat(labels_flatten, dim=0)
         reg_targets_flatten = torch.cat(reg_targets_flatten, dim=0)
 
-        pos_inds = torch.nonzero(labels_flatten > 0).squeeze(1)
-        cls_loss = self.cls_loss_func(
-            box_cls_flatten,
-            labels_flatten.int()
-        ) / (pos_inds.numel() + N)  # add N to avoid dividing by a zero
+        # pos_inds = torch.nonzero(labels_flatten > 0).squeeze(1)
+        # cls_loss = self.cls_loss_func(
+        #     box_cls_flatten,
+        #     labels_flatten.int()
+        # ) / (pos_inds.numel() + N)  # add N to avoid dividing by a zero
 
-        box_regression_flatten = box_regression_flatten[pos_inds]
-        reg_targets_flatten = reg_targets_flatten[pos_inds]
-        centerness_flatten = centerness_flatten[pos_inds]
+        # box_regression_flatten = box_regression_flatten[pos_inds]
+        # reg_targets_flatten = reg_targets_flatten[pos_inds]
 
-        if pos_inds.numel() > 0:
-            centerness_targets = self.compute_centerness_targets(reg_targets_flatten)
-            reg_loss = self.box_reg_loss_func(
-                box_regression_flatten,
-                reg_targets_flatten,
-                centerness_targets
-            )
-            centerness_loss = self.centerness_loss_func(
-                centerness_flatten,
-                centerness_targets
-            )
-        else:
-            reg_loss = box_regression_flatten.sum()
-            centerness_loss = centerness_flatten.sum()
+        indicator = labels_flatten > 0
+        centerness_flatten = centerness_flatten * indicator.type_as(centerness_flatten)
 
-        return cls_loss, reg_loss, centerness_loss, centerness_targets
+        # if pos_inds.numel() > 0:
+        #     centerness_targets = self.compute_centerness_targets(reg_targets_flatten)
+        #     reg_loss = self.box_reg_loss_func(
+        #         box_regression_flatten,
+        #         reg_targets_flatten,
+        #         centerness_targets
+        #     )
+        #     centerness_loss = self.centerness_loss_func(
+        #         centerness_flatten,
+        #         centerness_targets
+        #     )
+        # else:
+        #     reg_loss = box_regression_flatten.sum()
+        #     centerness_loss = centerness_flatten.sum()
+
+        return centerness_targets
 
 
 def make_fcos_loss_evaluator(cfg):
