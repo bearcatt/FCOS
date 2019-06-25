@@ -27,8 +27,8 @@ For your convenience, we provide the following trained models.
 FCOS Model | Training mem (GB) | Multi-scale training | SyncBN| Testing time / im | #Backbone params | Backbone GFLOPs| AP (minival) | AP (test-dev) | Link
 --- |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:--:|:---:
 ResNet_50_5l_2x           | 29.3 | No  |No | 71ms  |27.2M |90.6  | 37.1 | -    | [model]()
-HRNet_W18_5l_2x           | 54.4 | No  |No | 75ms  |12.6M |80.6  | 37.7 | -    | [model]()
-HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 75ms  |12.6M |80.6  | -    | -    | [model]()
+HRNet_W18_5l_2x           | 54.4 | No  |No | 70ms  |12.6M |80.6  | 37.7 | -    | [model]()
+HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 70ms  |12.6M |80.6  | -    | -    | [model]()
 ||
 ResNet_50_6l_2x           | 58.2 | No  |No | 95ms  |27.8M |130.5 | 37.1 | -    | [model]()
 HRNet_W18_6l_2x           | 88.1 | No  |No | 105ms |13.2M |116.5 | 37.8 | -    | [model]()
