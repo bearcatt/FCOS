@@ -1,7 +1,7 @@
 # High-resolution Networks for Fully Convolutional One-Stage Object Detection
 
 ## Introduction
-This project contains the code of HRNet-FCOS, i.e., using [High-resolution Networks (HRNets)](https://arxiv.org/pdf/1904.04514.pdf) as the backbones for the [Fully Convolutional One-Stage Object Detection](https://arxiv.org/abs/1904.01355) algorithm, which achieves much better detection results compared with the ResNet-FCOS counterparts while keeping a similar computation complexity.
+This project contains the code of HRNet-FCOS, i.e., using [High-resolution Networks (HRNets)](https://arxiv.org/pdf/1904.04514.pdf) as the backbones for the [Fully Convolutional One-Stage Object Detection](https://arxiv.org/abs/1904.01355) algorithm, which achieves much better detection results compared with the ResNet-FCOS counterparts while keeping a similar computation complexity. For more projects using HRNet, please go to our [website](https://github.com/HRNet).
 
 ## Quick start
 ### Installation
