@@ -45,13 +45,11 @@ FCOS_HRNet_W32_6l_2x           | 108.6| Yes |Yes| 120ms |209.5 | 43.0    | -    
 FCOS_HRNet_W40_6l_3x           | 128.0| Yes |No | 139ms |284.4 | 42.6 | -    | [model]()
 
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
-[2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark.* \
-[3] *The branches in HRNet model cannot run in parallel since Pytorch adopts dynamic computation graph, which leading to a slower inference speed than ResNet.* \
-[5] *We provide HRNet-FCOS models trained with Synchronous Batch-Normalization (syncBN).*\
-[6] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*\
-[4] *All results are obtained with a single model and without any test time data augmentation.*
-
-HRNet 
+[2] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*
+[3] *We provide HRNet-FCOS models trained with Synchronous Batch-Normalization (syncBN).*\
+[4] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark.* \
+[5] *The branches in HRNet model cannot run in parallel since Pytorch adopts dynamic computation graph, which leading to a slower inference speed than ResNet.* \
+[6] *All results are obtained with a single model and without any test time data augmentation.*
 
 ### Training
 
