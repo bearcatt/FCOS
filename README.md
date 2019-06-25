@@ -26,23 +26,23 @@ For your convenience, we provide the following trained models.
 
 Model | Training mem (GB) | Multi-scale training | SyncBN| Testing time / im | Backbone GFLOPs| AP (minival) | AP (test-dev) | Link
 --- |:---:|:---:|:---:|:---:|:---:|:---:|:--:|:---:
-FCOS_R_50_5l_2x                | 29.3 | No  |No | 71ms  |90.6   | 37.1 | -    | [download]()
-FCOS_HRNet_W18_5l_2x           | 54.4 | No  |No | 75ms  |80.6  | 37.7 | -    | [download]()
-FCOS_HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 75ms  |80.6  | -    | -    | [download]()
+FCOS_R_50_5l_2x                | 29.3 | No  |No | 71ms  |90.6   | 37.1 | -    | [model]()
+FCOS_HRNet_W18_5l_2x           | 54.4 | No  |No | 75ms  |80.6  | 37.7 | -    | [model]()
+FCOS_HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 75ms  |80.6  | -    | -    | [model]()
 ||
-FCOS_R_50_6l_2x                | 58.2 | No  |No | 95ms  |130.5  | 37.1 | -    | [download]()
-FCOS_HRNet_W18_6l_2x           | 88.1 | No  |No | 105ms |116.5 | 37.8 | -    | [download]()
-FCOS_HRNet_W18_6l_2x           | 88.1 | Yes |Yes| 105ms |116.5 | -    | -    | [download]()
+FCOS_R_50_6l_2x                | 58.2 | No  |No | 95ms  |130.5  | 37.1 | -    | [model]()
+FCOS_HRNet_W18_6l_2x           | 88.1 | No  |No | 105ms |116.5 | 37.8 | -    | [model]()
+FCOS_HRNet_W18_6l_2x           | 88.1 | Yes |Yes| 105ms |116.5 | -    | -    | [model]()
 ||
-FCOS_R_101_5l_2x               | 44.1 | Yes |No | 74ms  |162.8  | 41.4 | -    | [download]()
-FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |No | 82ms  |173.6 | 41.9 | -    | [download]()
-FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |Yes| 82ms  |173.6 | -    | -    | [download]()
+FCOS_R_101_5l_2x               | 44.1 | Yes |No | 74ms  |162.8  | 41.4 | -    | [model]()
+FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |No | 82ms  |173.6 | 41.9 | -    | [model]()
+FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |Yes| 82ms  |173.6 | -    | -    | [model]()
 ||
-FCOS_R_101_6l_2x               | 71.0 | Yes |No | 115ms |202.7  | 41.5 | -    | [download]()
-FCOS_HRNet_W32_6l_2x           | 108.6| Yes |No | 120ms |209.5 | 42.1 | -    | [download]()
-FCOS_HRNet_W32_6l_2x           | 108.6| Yes |Yes| 120ms |209.5 | 43.0    | -    | [download]()
+FCOS_R_101_6l_2x               | 71.0 | Yes |No | 115ms |202.7  | 41.5 | -    | [model]()
+FCOS_HRNet_W32_6l_2x           | 108.6| Yes |No | 120ms |209.5 | 42.1 | -    | [model]()
+FCOS_HRNet_W32_6l_2x           | 108.6| Yes |Yes| 120ms |209.5 | 43.0    | -    | [model]()
 ||
-FCOS_HRNet_W40_6l_3x           | 128.0| Yes |No | 139ms |284.4 | 42.6 | -    | [download]()
+FCOS_HRNet_W40_6l_3x           | 128.0| Yes |No | 139ms |284.4 | 42.6 | -    | [model]()
 
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
 [2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark.* \
