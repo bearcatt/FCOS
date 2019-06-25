@@ -1,104 +1,74 @@
-# FCOS: Fully Convolutional One-Stage Object Detection
+# High-resolution Networks for Fully Convolutional One-Stage Object Detection
 
-This project hosts the code for implementing the FCOS algorithm for object detection, as presented in our paper:
+## Introduction
+This project contains the code of HRNet-FCOS, i.e., using [High-resolution Networks (HRNets)](https://arxiv.org/pdf/1904.04514.pdf) as the backbones for the [Fully Convolutional One-Stage Object Detection](https://arxiv.org/abs/1904.01355) algorithm, which achieves much better detection results compared with the ResNet-FCOS counterparts while keeping a similar computation complexity.
 
-    FCOS: Fully Convolutional One-Stage Object Detection;
-    Tian Zhi, Chunhua Shen, Hao Chen, and Tong He;
-    arXiv preprint arXiv:1904.01355 (2019).
-
-The full paper is available at: [https://arxiv.org/abs/1904.01355](https://arxiv.org/abs/1904.01355). 
-
-## Highlights
-- **Totally anchor-free:**  FCOS completely avoids the complicated computation related to anchor boxes and all hyper-parameters of anchor boxes.   
-- **Memory-efficient:** FCOS uses 2x less training memory footprint than its anchor-based counterpart RetinaNet.
-- **Better performance:** The very simple detector achieves better performance (37.1 vs. 36.8) than Faster R-CNN.
-- **Faster training and inference:** With the same hardwares, FCOS also requires less training hours (6.5h vs. 8.8h) and faster inference speed (71ms vs. 126 ms per im) than Faster R-CNN.
-- **State-of-the-art performance:** Without bells and whistles, FCOS achieves state-of-the-art performances.
-It achieves **41.5%** (ResNet-101-FPN) and **43.2%** (ResNeXt-64x4d-101) in AP on coco test-dev.
-
-## Updates
-### 17 May 2019
-   - FCOS has been implemented in [mmdetection](https://github.com/open-mmlab/mmdetection). Many thanks to [@yhcao6](https://github.com/yhcao6) and [@hellock](https://github.com/hellock).
-
-## Required hardware
-We use 8 Nvidia V100 GPUs. \
-But 4 1080Ti GPUs can also train a fully-fledged ResNet-50-FPN based FCOS since FCOS is memory-efficient.  
-
-## Installation
-
-This FCOS implementation is based on [maskrcnn-benchmark](https://github.com/facebookresearch/maskrcnn-benchmark). Therefore the installation is the same as original maskrcnn-benchmark.
+## Quick start
+### Installation
 
 Please check [INSTALL.md](INSTALL.md) for installation instructions.
-You may also want to see the original [README.md](MASKRCNN_README.md) of maskrcnn-benchmark.
+You may also want to see the original [README.md](FCOS_README.md) of FCOS.
 
-## A quick demo
-Once the installation is done, you can follow the below steps to run a quick demo.
-    
-    # assume that you are under the root directory of this project,
-    # and you have activated your virtual environment if needed.
-    wget https://cloudstor.aarnet.edu.au/plus/s/dDeDPBLEAt19Xrl/download -O FCOS_R_50_FPN_1x.pth
-    python demo/fcos_demo.py
-
-
-## Inference
+### Inference
 The inference command line on coco minival split:
 
     python tools/test_net.py \
-        --config-file configs/fcos/fcos_R_50_FPN_1x.yaml \
-        MODEL.WEIGHT models/FCOS_R_50_FPN_1x.pth \
-        TEST.IMS_PER_BATCH 4    
+        --config-file configs/fcos/fcos_hrnet_w32_5l_2x.yaml \
+        MODEL.WEIGHT models/FCOS_hrnet_w32_5l_2x.pth \
+        TEST.IMS_PER_BATCH 8
 
 Please note that:
-1) If your model's name is different, please replace `models/FCOS_R_50_FPN_1x.pth` with your own.
+1) If your model's name is different, please replace `models/FCOS_hrnet_w32_5l_2x.pth` with your own.
 2) If you enounter out-of-memory error, please try to reduce `TEST.IMS_PER_BATCH` to 1.
 3) If you want to evaluate a different model, please change `--config-file` to its config file (in [configs/fcos](configs/fcos)) and `MODEL.WEIGHT` to its weights file.
 
-For your convenience, we provide the following trained models (more models are coming soon).
+For your convenience, we provide the following trained models.
 
 Model | Total training mem (GB) | Multi-scale training | Testing time / im | AP (minival) | AP (test-dev) | Link
 --- |:---:|:---:|:---:|:---:|:--:|:---:
-FCOS_HRNet_W18_5l_2x           | 54.4 | No  | 72ms  | 37.7 |      | [download]()
-FCOS_HRNet_W18_6l_1x           |      | No  | 103ms | 34.5 |      | [download]()
-FCOS_HRNet_W18_6l_2x           |      | No  | 105ms | 37.8 |      | [download]()
-FCOS_HRNet_W32_5l_2x           | 78.9 | Yes | 82ms  | 41.9 |      | [download]()
-FCOS_HRNet_W32_6l_2x           | 108.6| Yes |       | 42.1 |      | [download]()
-FCOS_HRNet_W40_5l_2x           |      | Yes |       |      |      | [download]()
-FCOS_HRNet_W40_6l_2x           |      | Yes | 139ms | 42.0 |      | [download]()
-FCOS_HRNet_W40_6l_3x           |      | Yes | 139ms | 42.6 |      | [download]()
-FCOS_HRNet_W32_6l_2x_syncBN    | 112.0| Yes |       | -    |      | [download]()
-FCOS_HRNet_W32_6l_2x_syncBN*   | 112.0| Yes |       | -    |      | [download]()
-FCOS_HRNet_W32_6l_2x_syncBN**  | 112.0| Yes |       | -    |      | [download]()
+FCOS_HRNet_W18_5l_2x           | 54.4 | No  | 75ms  | 37.7 | -    | [download]()
+FCOS_HRNet_W18_5l_2x_syncBN    | 54.4 | Yes | 75ms  | -    | -    | [download]()
+FCOS_HRNet_W18_6l_2x           | 88.1 | No  | 105ms | 37.8 | -    | [download]()
+FCOS_HRNet_W18_6l_2x_syncBN    | 88.1 | Yes | 105ms | -    | -    | [download]()
+FCOS_HRNet_W32_5l_2x           | 78.9 | Yes | 82ms  | 41.9 | -    | [download]()
+FCOS_HRNet_W32_5l_2x_syncBN    | 78.9 | Yes | 82ms  | -    | -    | [download]()
+FCOS_HRNet_W32_6l_2x           | 108.6| Yes | 120ms | 42.1 | -    | [download]()
+FCOS_HRNet_W32_6l_2x_syncBN    | 108.6| Yes | 120ms | -    | -    | [download]()
+FCOS_HRNet_W40_6l_3x           | 128.0| Yes | 139ms | 42.6 | -    | [download]()
+FCOS_R_101_5l_2x               | 44.1 | Yes | 74ms  | 41.4 | -    | [download]()
+FCOS_R_101_6l_2x               | 71.0 | Yes | 115ms | 41.5 | -    | [download]()
 
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
-[2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark*. \
-[3] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
-[4] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
+[2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark.* \
+[3] *The branches in HRNet model cannot run in parallel since Pytorch adopts dynamic computation graph, which leading to a slower inference speed than ResNet.* \
+[5] *We provide HRNet-FCOS models trained with Synchronous Batch-Normalization (syncBN).*\
+[6] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*\
+[4] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..*
 
-## Training
+### Training
 
-The following command line will train FCOS_R_50_FPN_1x on 8 GPUs with Synchronous Stochastic Gradient Descent (SGD):
+The following command line will trains fcos_hrnet_w32_5l_2x mdoel on 8 GPUs with Synchronous Stochastic Gradient Descent (SGD):
 
     python -m torch.distributed.launch \
         --nproc_per_node=8 \
         --master_port=$((RANDOM + 10000)) \
         tools/train_net.py \
-        --skip-test \
-        --config-file configs/fcos/fcos_R_50_FPN_1x.yaml \
-        DATALOADER.NUM_WORKERS 2 \
-        OUTPUT_DIR training_dir/fcos_R_50_FPN_1x
+        --config-file configs/fcos/fcos_hrnet_w32_5l_2x.yaml \
+        MODEL.WEIGHT hrnetv2_w32_imagenet_pretrained.pth \
+        DATALOADER.NUM_WORKERS 4 \
+        OUTPUT_DIR training_dir/fcos_hrnet_w32_5l_2x
         
 Note that:
-1) If you want to use fewer GPUs, please change `--nproc_per_node` to the number of GPUs. No other settings need to be changed. The total batch size does not depends on `nproc_per_node`. If you want to change the total batch size, please change `SOLVER.IMS_PER_BATCH` in [configs/fcos/fcos_R_50_FPN_1x.yaml](configs/fcos/fcos_R_50_FPN_1x.yaml).
-2) The models will be saved into `OUTPUT_DIR`.
-3) If you want to train FCOS with other backbones, please change `--config-file`.
-4) The link of ImageNet pre-training X-101-64x4d in the code is invalid. Please download the model [here](https://cloudstor.aarnet.edu.au/plus/s/k3ys35075jmU1RP/download).
-5) If you want to train FCOS on your own dataset, please follow this instruction [#54](https://github.com/tianzhi0549/FCOS/issues/54#issuecomment-497558687).
-## Contributing to the project
+1) If you want to use fewer GPUs, please change `--nproc_per_node` to the number of GPUs. No other settings need to be changed. The total batch size does not depends on `nproc_per_node`. If you want to change the total batch size, please change `SOLVER.IMS_PER_BATCH` in [configs/fcos/fcos_hrnet_w32_5l_2x.yaml](configs/fcos/fcos_hrnet_w32_5l_2x.yaml).
+2) The imagenet pre-trained model can be found [here](https://github.com/HRNet/HRNet-Object-Detection#faster-r-cnn).
+3) The models will be saved into `OUTPUT_DIR`.
+4) If you want to train FCOS on your own dataset, please follow this instruction [#54](https://github.com/tianzhi0549/FCOS/issues/54#issuecomment-497558687).
+### Contributing to the project
 
 Any pull requests or issues are welcome.
 
-## Citations
-Please consider citing these papers in your publications if the project helps your research. BibTeX reference is as follows.
+### Citations
+Please consider citing the following papers in your publications if the project helps your research. 
 ```
 @article{sun2019deep,
   title={Deep High-Resolution Representation Learning for Human Pose Estimation},
@@ -116,6 +86,6 @@ Please consider citing these papers in your publications if the project helps yo
 ```
 
 
-## License
+### License
 
 For academic use, this project is licensed under the 2-clause BSD License - see the LICENSE file for details. For commercial use, please contact the authors. 
