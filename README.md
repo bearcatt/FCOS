@@ -43,11 +43,11 @@ FCOS_R_101_6l_2x               | 71.0 | Yes | 115ms | 41.5 | -    | [download]()
 [3] *The branches in HRNet model cannot run in parallel since Pytorch adopts dynamic computation graph, which leading to a slower inference speed than ResNet.* \
 [5] *We provide HRNet-FCOS models trained with Synchronous Batch-Normalization (syncBN).*\
 [6] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*\
-[4] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..*
+[4] *All results are obtained with a single model and without any test time data augmentation.*
 
 ### Training
 
-The following command line will trains fcos_hrnet_w32_5l_2x mdoel on 8 GPUs with Synchronous Stochastic Gradient Descent (SGD):
+The following command line will trains a fcos_hrnet_w32_5l_2x model on 8 GPUs with Synchronous Stochastic Gradient Descent (SGD):
 
     python -m torch.distributed.launch \
         --nproc_per_node=8 \
