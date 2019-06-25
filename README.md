@@ -24,25 +24,25 @@ Please note that:
 
 For your convenience, we provide the following trained models.
 
-Model | Training mem (GB) | Multi-scale training | SyncBN| Testing time / im | Backbone GFLOPs| AP (minival) | AP (test-dev) | Link
---- |:---:|:---:|:---:|:---:|:---:|:---:|:--:|:---:
-FCOS_R_50_5l_2x                | 29.3 | No  |No | 71ms  |90.6   | 37.1 | -    | [model]()
-FCOS_HRNet_W18_5l_2x           | 54.4 | No  |No | 75ms  |80.6  | 37.7 | -    | [model]()
-FCOS_HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 75ms  |80.6  | -    | -    | [model]()
+Model | Training mem (GB) | Multi-scale training | SyncBN| Testing time / im | #Backbone params | Backbone GFLOPs| AP (minival) | AP (test-dev) | Link
+--- |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:--:|:---:
+FCOS_R_50_5l_2x                | 29.3 | No  |No | 71ms  |27.2M |90.6  | 37.1 | -    | [model]()
+FCOS_HRNet_W18_5l_2x           | 54.4 | No  |No | 75ms  |12.6M |80.6  | 37.7 | -    | [model]()
+FCOS_HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 75ms  |12.6M |80.6  | -    | -    | [model]()
 ||
-FCOS_R_50_6l_2x                | 58.2 | No  |No | 95ms  |130.5  | 37.1 | -    | [model]()
-FCOS_HRNet_W18_6l_2x           | 88.1 | No  |No | 105ms |116.5 | 37.8 | -    | [model]()
-FCOS_HRNet_W18_6l_2x           | 88.1 | Yes |Yes| 105ms |116.5 | -    | -    | [model]()
+FCOS_R_50_6l_2x                | 58.2 | No  |No | 95ms  |27.8M |130.5 | 37.1 | -    | [model]()
+FCOS_HRNet_W18_6l_2x           | 88.1 | No  |No | 105ms |13.2M |116.5 | 37.8 | -    | [model]()
+FCOS_HRNet_W18_6l_2x           | 88.1 | Yes |Yes| 105ms |13.2M |116.5 | -    | -    | [model]()
 ||
-FCOS_R_101_5l_2x               | 44.1 | Yes |No | 74ms  |162.8  | 41.4 | -    | [model]()
-FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |No | 82ms  |173.6 | 41.9 | -    | [model]()
-FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |Yes| 82ms  |173.6 | -    | -    | [model]()
+FCOS_R_101_5l_2x               | 44.1 | Yes |No | 74ms  |46.1M |162.8 | 41.4 | -    | [model]()
+FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |No | 82ms  |32.4M |173.6 | 41.9 | -    | [model]()
+FCOS_HRNet_W32_5l_2x           | 78.9 | Yes |Yes| 82ms  |32.4M |173.6 | -    | -    | [model]()
 ||
-FCOS_R_101_6l_2x               | 71.0 | Yes |No | 115ms |202.7  | 41.5 | -    | [model]()
-FCOS_HRNet_W32_6l_2x           | 108.6| Yes |No | 120ms |209.5 | 42.1 | -    | [model]()
-FCOS_HRNet_W32_6l_2x           | 108.6| Yes |Yes| 120ms |209.5 | 43.0    | -    | [model]()
+FCOS_R_101_6l_2x               | 71.0 | Yes |No | 115ms |46.8M |202.7 | 41.5 | -    | [model]()
+FCOS_HRNet_W32_6l_2x           | 108.6| Yes |No | 120ms |33.0M |209.5 | 42.1 | -    | [model]()
+FCOS_HRNet_W32_6l_2x           | 108.8| Yes |Yes| 120ms |33.0M |209.5 | 43.0 | -    | [model]()
 ||
-FCOS_HRNet_W40_6l_3x           | 128.0| Yes |No | 139ms |284.4 | 42.6 | -    | [model]()
+FCOS_HRNet_W40_6l_3x           | 128.0| Yes |No | 139ms |49.2M |284.4 | 42.6 | -    | [model]()
 
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
 [2] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*
