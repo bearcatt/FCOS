@@ -26,8 +26,8 @@ conda install ipython
 pip install ninja yacs cython matplotlib tqdm
 
 # follow PyTorch installation in https://pytorch.org/get-started/locally/
-# we give the instructions for CUDA 9.0
-conda install -c pytorch pytorch=1.1.0 torchvision=0.2.1 cudatoolkit=9.0
+# we give the instructions for CUDA 10.0
+conda install -c pytorch pytorch=1.1.0 torchvision=0.2.1 cudatoolkit=10.0
 
 export INSTALL_DIR=$PWD
 
@@ -58,7 +58,7 @@ unset INSTALL_DIR
 ### Option 2: Docker Image (Requires CUDA, Linux only)
 *The following steps are for original maskrcnn-benchmark. Please change the repository name if needed.* 
 
-Build image with defaults (`CUDA=9.0`, `CUDNN=7`, `FORCE_CUDA=1`):
+Build image with defaults (`CUDA=10.0`, `CUDNN=7`, `FORCE_CUDA=1`):
 
     nvidia-docker build -t maskrcnn-benchmark docker/
     

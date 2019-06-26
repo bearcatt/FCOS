@@ -1,7 +1,7 @@
 # High-resolution Networks for FCOS
 
 ## Introduction
-This project contains the code of HRNet-FCOS, i.e., using [High-resolution Networks (HRNets)](https://arxiv.org/pdf/1904.04514.pdf) as the backbones for the [Fully Convolutional One-Stage Object Detection (FCOS)](https://arxiv.org/abs/1904.01355) algorithm, which achieves much better detection results compared with the ResNet-FCOS counterparts while keeping a similar computation complexity. For more projects using HRNet, please go to our [website](https://github.com/HRNet).
+This project contains the code of HRNet-FCOS, i.e., using [High-resolution Networks (HRNets)](https://arxiv.org/pdf/1904.04514.pdf) as the backbones for the [Fully Convolutional One-Stage Object Detection (FCOS)](https://arxiv.org/abs/1904.01355) algorithm, which achieves much better detection results compared with the ResNet-FCOS counterparts while keeping a similar computation complexity. For more projects using HRNets, please go to our [website](https://github.com/HRNet).
 
 ## Quick start
 ### Installation
@@ -24,31 +24,31 @@ Please note that:
 
 For your convenience, we provide the following trained models.
 
-FCOS Model | Training mem (GB) | Multi-scale training | SyncBN| Testing time / im | #Backbone params | Backbone GFLOPs| AP (minival) | AP (test-dev) | Link
---- |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:--:|:---:
-ResNet_50_5l_2x           | 29.3 | No  |No | 71ms  |27.2M |90.6  | 37.1 | -    | [model]()
-HRNet_W18_5l_2x           | 54.4 | No  |No | 70ms  |12.6M |80.6  | 37.7 | -    | [model]()
-HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 70ms  |12.6M |80.6  | -    | -    | [model]()
+FCOS Model | Training mem (GB) | Multi-scale training | SyncBN| Testing time / im | # params | Backbone GFLOPs|Total GFLOPs| AP (minival) | Link
+--- |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:
+ResNet_50_5l_2x           | 29.3 | No  |No | 71ms  |32.0M |90.6  |190.0| 37.1 | [model]()
+HRNet_W18_5l_2x           | 54.4 | No  |No | 72ms  |17.5M |80.6  |180.3| 37.7 | [model]()
+HRNet_W18_5l_2x           | 54.4 | Yes |Yes| 72ms  |17.5M |80.6  |180.3| -    | [model]()
 ||
-ResNet_50_6l_2x           | 58.2 | No  |No | 95ms  |27.8M |130.5 | 37.1 | -    | [model]()
-HRNet_W18_6l_2x           | 88.1 | No  |No | 105ms |13.2M |116.5 | 37.8 | -    | [model]()
-HRNet_W18_6l_2x           | 88.1 | Yes |Yes| 105ms |13.2M |116.5 | -    | -    | [model]()
+ResNet_50_6l_2x           | 58.2 | No  |No | 98ms  |32.7M |130.5 |529.0| 37.1 | [model]()
+HRNet_W18_6l_2x           | 88.1 | No  |No | 106ms |18.1M |116.5 |515.1| 37.8 | [model]()
+HRNet_W18_6l_2x           | 88.1 | Yes |Yes| 106ms |18.1M |116.5 |515.1| -    | [model]()
 ||
-ResNet_101_5l_2x          | 44.1 | Yes |No | 74ms  |46.1M |162.8 | 41.4 | -    | [model]()
-HRNet_W32_5l_2x           | 78.9 | Yes |No | 82ms  |32.4M |173.6 | 41.9 | -    | [model]()
-HRNet_W32_5l_2x           | 78.9 | Yes |Yes| 82ms  |32.4M |173.6 | -    | -    | [model]()
+ResNet_101_5l_2x          | 44.1 | Yes |No | 74ms  |51.0M |162.8 |261.2| 41.4 | [model]()
+HRNet_W32_5l_2x           | 78.9 | Yes |No | 87ms  |37.3M |173.6 |273.3| 41.9 | [model]()
+HRNet_W32_5l_2x           | 78.9 | Yes |Yes| 87ms  |37.3M |173.6 |273.3| -    | [model]()
 ||
-ResNet_101_6l_2x          | 71.0 | Yes |No | 115ms |46.8M |202.7 | 41.5 | -    | [model]()
-HRNet_W32_6l_2x           | 108.6| Yes |No | 120ms |33.0M |209.5 | 42.1 | -    | [model]()
-HRNet_W32_6l_2x           | 108.8| Yes |Yes| 120ms |33.0M |209.5 | 43.0 | -    | [model]()
+ResNet_101_6l_2x          | 71.0 | Yes |No | 121ms |51.6M |202.7 |601.0| 41.5 | [model]()
+HRNet_W32_6l_2x           | 108.6| Yes |No | 125ms |37.9M |209.5 |608.0| 42.1 | [model]()
+HRNet_W32_6l_2x           | 108.8| Yes |Yes| 125ms |37.9M |209.5 |608.0| 43.0 | [model]()
 ||
-HRNet_W40_6l_3x           | 128.0| Yes |No | 139ms |49.2M |284.4 | 42.6 | -    | [model]()
+HRNet_W40_6l_3x           | 128.0| Yes |No | 142ms |54.1M |284.4 |682.9| 42.6 | [model]()
 
-[1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
-[2] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*
+[1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.*\
+[2] *5l and 6l denote that we use feature pyramid with 5 levels and 6 levels, respectively.*\
 [3] *We provide HRNet-FCOS models trained with Synchronous Batch-Normalization (syncBN).*\
-[4] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark.* \
-[5] *The branches in HRNet model cannot run in parallel since Pytorch adopts dynamic computation graph, which leading to a slower inference speed than ResNet.* \
+[4] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark.*\
+[5] *The inference speed of HRNet can get improved if the branches in the HRNet model can run in parallel.*\
 [6] *All results are obtained with a single model and without any test time data augmentation.*
 
 ### Training
