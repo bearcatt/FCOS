@@ -54,6 +54,7 @@ Please note that:
 3) If you want to evaluate a different model, please change `--config-file` to its config file (in [configs/fcos](configs/fcos)) and `MODEL.WEIGHT` to its weights file.
 
 For your convenience, we provide the following trained models (more models are coming soon).
+
 Model | Total training mem (GB) | Multi-scale training |SyncBN  | Testing time / im | AP (minival) | AP (test-dev) | Link
 --- |:---:|:---:|:---:|:---:|:---:|:--:|:---:
 FCOS_R_50_FPN_1x        | 29.3 | No  |No  | 71ms | 37.1 | 37.4 | [download](https://cloudstor.aarnet.edu.au/plus/s/dDeDPBLEAt19Xrl/download)
