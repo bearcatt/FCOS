@@ -6,6 +6,8 @@ MODEL:
     CONV_BODY: "HRNET-W18"
   RETINANET:
     USE_C5: False # FCOS uses P5 instead of C5
+  HRNET:
+    SYNCBN: True
 DATASETS:
   TRAIN: ("coco_2014_train", "coco_2014_valminusminival")
   TEST: ("coco_2014_minival",)
