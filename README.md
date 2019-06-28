@@ -72,9 +72,10 @@ FCOS_X_101_64x4d_FPN_2x | 77.7 | Yes |No  | 140ms | 43.0 | 43.2 | [download](htt
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
 [2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark*. \
 [3] *We provide FCOS-HRNet model trained with Synchronous Batch Normalization (SyncBN).*\
-[4] *The inference speed of HRNet can get improved if the branches in the HRNet model can run in parallel.*\
-[5] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
-[6] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
+[4] *We provide FCOS-HRNet model with 6 level feature pyramid, i.e., from 4x to 128x.*\
+[5] *The inference speed of HRNet can get improved if the branches in the HRNet model can run in parallel.*\
+[6] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
+[7] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
 
 
 ## Training
