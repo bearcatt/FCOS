@@ -119,6 +119,7 @@ def build_hrnet_fpn_backbone(cfg):
     )
     fpn_in_channels = [width, width * 2, width * 4, width * 8]
 
+    hrnet.BatchNorm2d = nn.SyncBatchNorm if cfg.MODEL.HRNET.SYNCBN else nn.BatchNorm2d
     body = hrnet.HighResolutionNet(extra=hrnet_args)
     fpn = getattr(hrfpn_module, cfg.MODEL.HRNET.FPN.TYPE)(
         in_channels=fpn_in_channels, 

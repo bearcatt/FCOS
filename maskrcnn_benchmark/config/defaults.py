@@ -281,6 +281,7 @@ _C.MODEL.RESNETS.STEM_OUT_CHANNELS = 64
 # HRNet options
 # ---------------------------------------------------------------------------- #
 _C.MODEL.HRNET = CN()
+_C.MODEL.HRNET.SYNCBN = False
 _C.MODEL.HRNET.FPN = CN()
 _C.MODEL.HRNET.FPN.TYPE = "HRFPN"
 _C.MODEL.HRNET.FPN.OUT_CHANNEL = 256
