@@ -36,7 +36,7 @@ ResNet_101_5l_2x          | 44.1 | Yes |No | 74ms  |51.0M |261.2| 41.4 | [model]
 HRNet_W32_5l_2x           | 78.9 | Yes |No | 87ms  |37.3M |273.3| 41.9 | [model](https://1drv.ms/u/s!Av9x_1oQAAoqfPuN69wCHx26k0o?e=L7c5FX)
 ||
 ResNet_101_6l_2x          | 71.0 | Yes |No | 121ms |51.6M |601.0| 41.5 | [model](https://1drv.ms/u/s!Av9x_1oQAAoqe7UH3Bh-kB8JuKA?e=EF9K0B)
-HRNet_W32_6l_2x           | 108.6| Yes |No | 125ms |37.9M |608.0| 42.0 | [model](https://1drv.ms/u/s!Av9x_1oQAAoqfZn3Xt2CrKUI2rk?e=ZdJSPG)
+HRNet_W32_6l_2x           | 108.6| Yes |No | 125ms |37.9M |608.0| 42.1 | [model](https://1drv.ms/u/s!Av9x_1oQAAoqfZn3Xt2CrKUI2rk?e=ZdJSPG)
 ||
 HRNet_W40_6l_3x           | 128.0| Yes |No | 142ms |54.1M |682.9| 42.6 | [model](https://1drv.ms/u/s!Av9x_1oQAAoqfu-2x6aOIsGxSsg?e=OBbs5Z)
 
