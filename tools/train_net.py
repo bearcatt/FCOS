@@ -38,7 +38,7 @@ def train(cfg, local_rank, distributed):
         model = torch.nn.parallel.DistributedDataParallel(
             model, device_ids=[local_rank], output_device=local_rank,
             # this should be removed if we update BatchNorm stats
-            broadcast_buffers=cfg.MODEL.SYNCBN,
+            broadcast_buffers=cfg.MODEL.HRNET.SYNCBN if "HRNET" in cfg.MODEL.BACKBONE.CONV_BODY else False,
         )
 
     arguments = {}

@@ -29,7 +29,6 @@ _C.MODEL.KEYPOINT_ON = False
 _C.MODEL.DEVICE = "cuda"
 _C.MODEL.META_ARCHITECTURE = "GeneralizedRCNN"
 _C.MODEL.CLS_AGNOSTIC_BBOX_REG = False
-_C.MODEL.SYNCBN = False
 
 # If the WEIGHT starts with a catalog://, like :R-50, the code will look for
 # the path in paths_catalog. Else, it will use it as the specified absolute
@@ -282,6 +281,7 @@ _C.MODEL.RESNETS.STEM_OUT_CHANNELS = 64
 # HRNet options
 # ---------------------------------------------------------------------------- #
 _C.MODEL.HRNET = CN()
+_C.MODEL.HRNET.SYNCBN = False
 _C.MODEL.HRNET.FPN = CN()
 _C.MODEL.HRNET.FPN.TYPE = "HRFPN"
 _C.MODEL.HRNET.FPN.OUT_CHANNEL = 256
