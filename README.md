@@ -58,14 +58,12 @@ For your convenience, we provide the following trained models (more models are c
 Model | Total training mem (GB) | Multi-scale training |SyncBN  | Testing time / im | AP (minival) | AP (test-dev) | Link
 --- |:---:|:---:|:---:|:---:|:---:|:--:|:---:
 FCOS_R_50_FPN_1x        | 29.3 | No  |No  | 71ms | 37.1 | 37.4 | [download](https://cloudstor.aarnet.edu.au/plus/s/dDeDPBLEAt19Xrl/download)
-FCOS_R_50_FPN_2x        | 29.3 | No  |No  | 71ms | 37.1 |  -   | [-]()
 FCOS_HRNet_W18_FPN_2x   | 54.4 | No  |No  | 72ms | 37.7 |  -   | [download](https://1drv.ms/u/s!Av9x_1oQAAoqeRND03CfS4HBONM?e=wT0G0O)
-FCOS_HRNet_W18_FPN_2x   | 54.4 | Yes |Yes | 72ms | -    |  -   | [-](-)
+FCOS_HRNet_W18_FPN_2x   | 55.0 | Yes |Yes | 72ms | 39.4 |  -   | [download](https://1drv.ms/u/s!Av9x_1oQAAoqgQlVjkAUDdV9Ej0A?e=9bh7VW)
 ||
 FCOS_R_101_FPN_2x       | 44.1 | Yes |No  | 74ms | 41.4 | 41.5 | [download](https://cloudstor.aarnet.edu.au/plus/s/vjL3L0AW7vnhRTo/download)
 FCOS_HRNet_W32_FPN_2x   | 78.9 | Yes |No  | 87ms | 41.9 |  -   | [download](https://1drv.ms/u/s!Av9x_1oQAAoqfPuN69wCHx26k0o?e=L7c5FX)
-FCOS_HRNet_W32_FPN_2x   | 78.9 | Yes |Yes | 87ms | -    |  -   | [-](-)
-FCOS_HRNet_W32_6level_FPN_2x   | 108.6| Yes |No  | 125ms| 42.1 |  -   | [download](https://1drv.ms/u/s!Av9x_1oQAAoqfZn3Xt2CrKUI2rk?e=ZdJSPG)
+FCOS_HRNet_W32_FPN_2x   | 80.1 | Yes |Yes | 87ms | 42.5 |  -   | [download](https://1drv.ms/u/s!Av9x_1oQAAoqgQHJWCW0-u0zOgzi?e=yrtKUt)
 ||
 FCOS_X_101_32x8d_FPN_2x | 72.9 | Yes |No  | 122ms | 42.5 | 42.7 | [download](https://cloudstor.aarnet.edu.au/plus/s/U5myBfGF7MviZ97/download)
 FCOS_X_101_64x4d_FPN_2x | 77.7 | Yes |No  | 140ms | 43.0 | 43.2 | [download](https://cloudstor.aarnet.edu.au/plus/s/wpwoCi4S8iajFi9/download)
@@ -73,10 +71,9 @@ FCOS_X_101_64x4d_FPN_2x | 77.7 | Yes |No  | 140ms | 43.0 | 43.2 | [download](htt
 [1] *1x and 2x mean the model is trained for 90K and 180K iterations, respectively.* \
 [2] *We report total training memory footprint on all GPUs instead of the memory footprint per GPU as in maskrcnn-benchmark*. \
 [3] *We provide FCOS-HRNet model trained with Synchronous Batch Normalization (SyncBN).*\
-[4] *We provide FCOS-HRNet model with 6 level feature pyramid, i.e., from 4x to 128x.*\
-[5] *The inference speed of HRNet can get improved if the branches in the HRNet model can run in parallel.*\
-[6] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
-[7] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
+[4] *The inference speed of HRNet can get improved if the branches in the HRNet model can run in parallel.*\
+[5] *All results are obtained with a single model and without any test time data augmentation such as multi-scale, flipping and etc..* \
+[6] *Our results have been improved since our initial release. If you want to check out our original results, please checkout commit [f4fd589](https://github.com/tianzhi0549/FCOS/tree/f4fd58966f45e64608c00b072c801de7f86b4f3a)*.
 
 
 ## Training
