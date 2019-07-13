@@ -90,7 +90,8 @@ The following command line will train FCOS_R_50_FPN_1x on 8 GPUs with Synchronou
         OUTPUT_DIR training_dir/fcos_R_50_FPN_1x
         
 Note that:
-1) If you want to use fewer GPUs, please change `--nproc_per_node` to the number of GPUs. No other settings need to be changed. The total batch size does not depends on `nproc_per_node`. If you want to change the total batch size, please change `SOLVER.IMS_PER_BATCH` in [configs/fcos/fcos_R_50_FPN_1x.yaml](configs/fcos/fcos_R_50_FPN_1x.yaml).
+1) If you want to use fewer GPUs, please change `--nproc_per_node` to the number of GPUs. No other settings need to be changed. The total batch size does not depends on `nproc_per_node`. If you want to change the total batch size, please change `SOLVER.IMS_PER_BATCH` in [configs/fcos/fcos_R_50_FPN_1x.yaml](configs/fcos/fcos_R_50_FPN_1x.yaml). 
+2) If you want to use multiple nodes for distributed training, please see the [official doc](https://pytorch.org/docs/stable/distributed.html). Also, you may need to set the environment variable `NCCL_TREE_THRESHOLD=0` before you start training.
 2) The models will be saved into `OUTPUT_DIR`.
 3) If you want to train FCOS with other backbones, please change `--config-file`.
 4) The link of ImageNet pre-training X-101-64x4d in the code is invalid. Please download the model [here](https://cloudstor.aarnet.edu.au/plus/s/k3ys35075jmU1RP/download).
